@@ -1,0 +1,49 @@
+server:
+  port: 8080
+  error:
+    include-message: always
+    include-binding-errors: always
+    include-stacktrace: never
+
+spring:
+  datasource:
+    url: jdbc:postgresql://ec2-54-170-90-26.eu-west-1.compute.amazonaws.com:5432/d6qmnol3fars1d
+    username: hjyfsbogaprmme
+    password: 9e1d21287754f836561cfb168f112e2ebcccf13a515b7975d86e00e98c23f6d7
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    show-sql: true
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: update
+
+  servlet:
+    multipart:
+      max-file-size: 2MB
+      max-request-size: 2MB
+
+RL:
+  app:
+    jwtSecret: readlibrary@55
+    jwtExpirationMs: 86400000
+
+
+logging:
+  file:
+    name: logs/readlibrary.log
+  pattern:
+    file: "%d %-5level [%thread] %logger:%msg%n"
+
+  level:
+    '[org.springframework.web]': INFO
+    '[org.hibernate]': INFO
+    '[com.greenrent]': DEBUG
+
+info:
+  application:
+    name: 'readlibrary Backend App.'
+    descprition: 'This is readlibrary Backend app dev by artofcoding Dev Team'
+    version: '@project.version@'
+
+
