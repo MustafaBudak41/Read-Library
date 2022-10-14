@@ -1,7 +1,7 @@
-package com.read_library.repository;
+package com.RL.repository;
 
-import com.readlibrary.domain.User;
-import com.readlibrary.service.UserService;
+
+import com.RL.domain.User;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -25,7 +25,7 @@ public class MockitoTest {
 
     @InjectMocks//service instance olusturu ve yukarida ki
     // mock lanan her objeyi bu classs a enjekte eder
-    UserService service;
+    //UserService service;
 
     @Autowired
     User user;
