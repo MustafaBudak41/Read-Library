@@ -3,6 +3,7 @@ package com.RL.service;
 
 
 import java.util.List;
+import java.util.Optional;
 
 import com.RL.repository.PublisherRepository;
 
@@ -22,15 +23,19 @@ import lombok.AllArgsConstructor;
 
 
 
+        //http://localhost:8080/publisher
         public void createPublisher(Publisher publisher) {
             publisherRepository.save(publisher);
 
         }
 
+        //http://localhost:8080/publisher
         public List<Publisher> getAll(){
             return publisherRepository.findAll();
         }
 
+   
+        
 //        public Publisher getPublisher(Long id) {
 //            return publisherRepository.findById(id).orElseThrow(()->
 //                    new ResourceNotFoundException(String.format(ErrorMessage.RESOURCE_NOT_FOUND_MESSAGE, id)));
