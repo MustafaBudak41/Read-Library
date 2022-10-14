@@ -9,9 +9,7 @@ import com.RL.repository.BookRepository;
 import com.RL.repository.LoanRepository;
 import com.RL.repository.UserRepository;
 import lombok.AllArgsConstructor;
-
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 
 @Service
@@ -28,35 +26,31 @@ public class LoanService {
 
     public void createLoan(Loan loan, Long userId, Book bookId) throws Exception {
 
-
         User user=userRepository.findById(userId).orElseThrow(()->
 
                 new ResourceNotFoundException(String.format(USER_NOT_FOUND_MSG,  userId)));
 
-        //LocalDateTime time=LocalDateTime.now();
 
-        List<Loan> expiredLoans=loanRepository.findExpiredLoansBy();
+        List<Loan> expiredLoans=loanRepository.findExpiredLoansBy(userId);
 
-        for (int i = 0; i < expiredLoans.size(); i++) {
-
-            if(expiredLoans.get(i).getId()==userId){
+            if(expiredLoans.size()>0)
 
                 throw new IllegalStateException("You do not have a permission to loan books");
-            }
-        }
-        if(bookId.isLoanable()){
-            bookId.setLoanable(false);
-        }else{
-            throw new Exception("The book is not available");
-        }
+
+
+            if(bookId.isLoanable()){
+
+                bookId.setLoanable(false);
+            }else
+                throw new Exception("The book is not available");
 
         loan.setUserId(user);
         loan.setBookId(bookId);
         loanRepository.save(loan);
 
-
-
     }
+
+
 
 
 

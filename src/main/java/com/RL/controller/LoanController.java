@@ -15,12 +15,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/loans")
 @AllArgsConstructor
 public class LoanController {
     public LoanService loanService;
 
-    @PostMapping("/add")
+    @PostMapping("/loans")
     public ResponseEntity<Map<String,Boolean>> createLoan(HttpServletRequest request,
 
                                                           @RequestParam(value = "bookId") Book bookId,
