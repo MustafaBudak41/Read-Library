@@ -22,17 +22,15 @@ import java.util.Set;
 
 @Service
 @AllArgsConstructor
-public class UserServiceImpl implements IUserService{
+public class UserServiceImpl implements IUserService {
 
     private UserRepository userRepository;
     private RoleRepository roleRepository;
     private UserMapper userMapper;
 
 
-
-
-      @Override
-      //@Transactional(noRollbackFor = SomeException)
+    @Override
+    //@Transactional(noRollbackFor = SomeException)
     public User saveUser(RegisterRequest registerRequest) {
         if (userRepository.existsByEmail(registerRequest.getEmail())) {
             throw new ConflictException(String.format(ErrorMessage.EMAIL_ALREADY_EXIST, registerRequest.getEmail()));
@@ -46,7 +44,7 @@ public class UserServiceImpl implements IUserService{
 
         User user = userMapper.userDTOToUser(registerRequest);
         userRepository.save(user);
-return user;
+        return user;
     }
 
     @Override
@@ -68,7 +66,6 @@ return user;
     public void createUser(UserDTO userDTO) {
 
     }
-
 
 
     @Override

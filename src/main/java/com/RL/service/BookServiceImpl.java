@@ -37,16 +37,6 @@ public class BookServiceImpl implements IBookService {
             Publisher publisher = publisherRepository.findById(bookDTO.getPublisherId().getId()).orElseThrow(()-> new
                     ResourceNotFoundException(String.format(ErrorMessage.PUBLISHER_NOT_FOUND_MESSAGE, bookDTO.getPublisherId().getId())));
 
-            Book book = new Book();
-            book.setName(bookDTO.getName());
-            book.setIsbn(bookDTO.getIsbn());
-            book.setPageCount(bookDTO.getPageCount());
-            book.setPublishDate(bookDTO.getPublishDate());
-            book.setShelfCode(bookDTO.getShelfCode());
-
-            book.setAuthorId(author);
-            book.setCategoryId(category);
-            book.setPublisherId(publisher);
 
             bookRepository.save(book);
         }
