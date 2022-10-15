@@ -21,43 +21,41 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class BookDTO {
 
-        private Long id;
-        @Size(min = 2, max = 80, message = "")
+        @Size(min = 2, max = 80, message = "12")
         @NotNull(message = "Please provide book name")
         private String name;
-        @Size(min = 17, max = 17, message = "")
+
+        @Size(min = 10, max = 20, message = "23")
         @NotNull(message = "Please provide isbn code")
-        @Pattern(regexp = "")
+        @Pattern(regexp = "^\\d{3}-\\d{2}-\\d{5}-\\d{2}-\\d$", message = "Please provide valid isbn")
         private String isbn;
 
         private int pageCount;
+
+        @NotNull(message = "PLease provide author for book")
+        private Author authorId;
+
+        @NotNull(message = "Please provide publisher for book")
+        private Publisher publisherId;
+
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern =
                 "yyyy", timezone = "Turkey")
         private int publishDate;
 
-        private File image;
-
-        @Size(min = 6, max = 6, message = "")
-        @NotNull(message = "Please provide shelf code")
-        @Pattern(regexp = "")
-        private String shelfCode;
-        @NotNull(message = "Please provide book featured")
-        private boolean featured=false;
-        @NotNull(message = "Please provide book activity")
-        private boolean active=true;
-        private boolean loanable=true;
-        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern =
-                "MM/dd/yyyy HH:mm:ss", timezone = "Turkey")
-        @NotNull(message = "Please provide book created date")
-        private LocalDateTime createDate= LocalDateTime.now();
-        private boolean builtIn=false;
-        @NotNull(message = "PLease provide author for book")
-        private Author authorId;
-        @NotNull(message = "Please provide publisher for book")
-        private Publisher publisherId;
         @NotNull(message = "Please provide category for book")
         private Category categoryId;
-//    private List<Loan> loansList;
+
+//        private File image;
+
+        @Size(min = 5, max = 8, message = "34")
+        @NotNull(message = "Please provide shelf code")
+        @Pattern(regexp = "^[A-Z]{2}-\\d{3}$", message = "Please provide valid shelf code")
+        private String shelfCode;
+
+        @NotNull(message = "Please provide book featured")
+        private boolean featured;
+
+
 
     }
 
