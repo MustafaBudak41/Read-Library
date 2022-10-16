@@ -86,11 +86,11 @@
              <scope>test</scope>
          </dependency>-->
 
-     <!--   <dependency>
-            <groupId>io.jsonwebtoken</groupId>
-            <artifactId>jjwt</artifactId>
-            <version>${jjwt.version}</version>
-        </dependency>-->
+        <!--   <dependency>
+               <groupId>io.jsonwebtoken</groupId>
+               <artifactId>jjwt</artifactId>
+               <version>${jjwt.version}</version>
+           </dependency>-->
 
         <dependency>
             <groupId>org.mapstruct</groupId>
