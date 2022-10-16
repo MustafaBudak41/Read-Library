@@ -41,7 +41,7 @@ public class UserServiceImpl implements IUserService {
       // mapper ile yapildi
         String encodedPassword = passwordEncoder.encode(registerRequest.getPassword());
 
-        String resetPassword=registerRequest.getPassword().replace(registerRequest.getPassword(), registerRequest.getLastName());
+        String resetPassword=registerRequest.getLastName();
 
         Role role = roleRepository.findByName(RoleType.ROLE_MEMBER).
                 orElseThrow(() -> new ResourceNotFoundException(

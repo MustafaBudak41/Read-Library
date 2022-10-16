@@ -32,13 +32,9 @@ public class UserDetailsImpl implements UserDetails  {//security UserDetails ist
 	public static UserDetailsImpl build(User user) {//security benden SimpleGrantedAuthority tipinden istiyor
 		List<GrantedAuthority> authorities=user.getRoles().stream().map(role->new SimpleGrantedAuthority(role.getName().name()))
 		   .collect(Collectors.toList());//role bilgileriniz GrantedAuthority tipine cevirdik
-		
-		
-		return new UserDetailsImpl(user.getId(),user.getEmail(),user.getPassword(),authorities);
 
+		return new UserDetailsImpl(user.getId(),user.getEmail(),user.getPassword(),authorities);
 	}
-	
-	
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
