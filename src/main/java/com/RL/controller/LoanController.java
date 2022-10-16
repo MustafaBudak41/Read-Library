@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -20,19 +21,40 @@ public class LoanController {
     public LoanService loanService;
 
     @PostMapping("/loans")
-    public ResponseEntity<Map<String,Boolean>> createLoan(HttpServletRequest request,
+    public ResponseEntity<Map<String, Boolean>> createLoan(HttpServletRequest request,
 
-                                                          @RequestParam(value = "bookId") Book bookId,
-                                                          @Valid @RequestBody Loan loan) throws Exception {
+                                                           @RequestParam(value = "bookId") Book bookId,
+                                                           @Valid @RequestBody Loan loan) throws Exception {
 
-        Long userId=(Long)request.getAttribute("id");
-        loanService.createLoan(loan,userId,bookId);
+        Long userId = (Long) request.getAttribute("id");
+        loanService.createLoan(loan, userId, bookId);
 
-        Map<String,Boolean>map=new HashMap<>();
+        Map<String, Boolean> map = new HashMap<>();
         map.put("Loan created", true);
         return new ResponseEntity<>(map, HttpStatus.CREATED);
 
     }
+
+    @GetMapping("/loans/user/{userId}")
+    public ResponseEntity<List<Loan>> findAllLoansByUserId(@PathVariable Long userId) {
+        List<Loan> loans = loanService.findAllLoansByUserId(userId);
+        return new ResponseEntity<>(loans, HttpStatus.OK);
+
+    }
+
+    @GetMapping("/loans/book/bookId")
+    public ResponseEntity<List<Loan>> findLoanedBookByBookId(Long bookId) {
+
+        List<Loan> loans = loanService.getLoanedBookByBookId(bookId);
+
+        return new ResponseEntity<>(loans,HttpStatus.OK);
+
+    }
+
+
+
+
+
 
 
 }

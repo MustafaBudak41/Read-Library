@@ -12,6 +12,10 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
+import static com.RL.exception.message.ErrorMessage.BOOK_NOT_FOUND_MESSAGE;
+import static com.RL.exception.message.ErrorMessage.USER_NOT_FOUND_MESSAGE;
+
+
 @Service
 @AllArgsConstructor
 public class LoanService {
@@ -22,13 +26,13 @@ public class LoanService {
 
     private final UserRepository userRepository;
 
-    private final static String USER_NOT_FOUND_MSG="User with Id %d not found";
+
 
     public void createLoan(Loan loan, Long userId, Book bookId) throws Exception {
 
         User user=userRepository.findById(userId).orElseThrow(()->
 
-                new ResourceNotFoundException(String.format(USER_NOT_FOUND_MSG,  userId)));
+                new ResourceNotFoundException(String.format(USER_NOT_FOUND_MESSAGE,  userId)));
 
 
         List<Loan> expiredLoans=loanRepository.findExpiredLoansBy(userId);
@@ -50,9 +54,20 @@ public class LoanService {
 
     }
 
+    public List<Loan> findAllLoansByUserId(Long userId){
+        User user=userRepository.findById(userId).orElseThrow(()->
+                new ResourceNotFoundException(String.format(USER_NOT_FOUND_MESSAGE,userId)) );
+
+        return loanRepository.findAllByUserId(user);
+
+    }
 
 
+    public List<Loan> getLoanedBookByBookId(Long bookId) {
+        Book book=bookRepository.findById(bookId).orElseThrow(()->
+               new ResourceNotFoundException(String.format(BOOK_NOT_FOUND_MESSAGE,bookId)) );
 
+        return loanRepository.findAllByBookId(book);
 
-
+    }
 }

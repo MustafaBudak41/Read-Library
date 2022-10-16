@@ -1,6 +1,7 @@
 package com.RL.domain;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -26,14 +27,17 @@ public class Loan {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @JsonFormat(shape= JsonFormat.Shape.STRING, pattern = "MM/dd/yyyy HH:mm:ss", timezone = "Turkey")
     @NotNull(message="Please provide load date")
     @Column(nullable = false)
     private LocalDateTime loanDate;
 
+    @JsonFormat(shape= JsonFormat.Shape.STRING, pattern = "MM/dd/yyyy HH:mm:ss", timezone = "Turkey")
     @NotNull(message="Please provide expire date")
     @Column(nullable = false)
     private LocalDateTime expireDate;
 
+    @JsonFormat(shape= JsonFormat.Shape.STRING, pattern = "MM/dd/yyyy HH:mm:ss", timezone = "Turkey")
     @NotNull(message="Please provide return")
     @Column(nullable = false)
     private LocalDateTime returnDate;
