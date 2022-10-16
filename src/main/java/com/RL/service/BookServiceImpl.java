@@ -15,6 +15,8 @@ import com.RL.repository.PublisherRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+
 @AllArgsConstructor
 @Service
 public class BookServiceImpl implements IBookService {
@@ -30,20 +32,24 @@ public class BookServiceImpl implements IBookService {
         @Override
         public Book createBook(BookDTO bookDTO)  {
 
-            Author author = authorRepository.findById(bookDTO.getAuthorId().getId()).orElseThrow(()-> new
-                    ResourceNotFoundException(String.format(ErrorMessage.AUTHOR_NOT_FOUND_MESSAGE, bookDTO.getAuthorId().getId())));
-
-            Category category = categoryRepository.findById(bookDTO.getCategoryId().getId()).orElseThrow(()-> new
-                    ResourceNotFoundException(String.format(ErrorMessage.CATEGORY_NOT_FOUND_MESSAGE, bookDTO.getCategoryId().getId())));
-
-            Publisher publisher = publisherRepository.findById(bookDTO.getPublisherId().getId()).orElseThrow(()-> new
-                    ResourceNotFoundException(String.format(ErrorMessage.PUBLISHER_NOT_FOUND_MESSAGE, bookDTO.getPublisherId().getId())));
+//            Author author = authorRepository.findById(bookDTO.getAuthorId().getId()).orElseThrow(()-> new
+//                    ResourceNotFoundException(String.format(ErrorMessage.AUTHOR_NOT_FOUND_MESSAGE, bookDTO.getAuthorId().getId())));
+//
+//            Category category = categoryRepository.findById(bookDTO.getCategoryId().getId()).orElseThrow(()-> new
+//                    ResourceNotFoundException(String.format(ErrorMessage.CATEGORY_NOT_FOUND_MESSAGE, bookDTO.getCategoryId().getId())));
+//
+//            Publisher publisher = publisherRepository.findById(bookDTO.getPublisherId().getId()).orElseThrow(()-> new
+//                    ResourceNotFoundException(String.format(ErrorMessage.PUBLISHER_NOT_FOUND_MESSAGE, bookDTO.getPublisherId().getId())));
 
             Book book = bookMapper.bookDTOToBook(bookDTO);
 
-            book.setAuthorId(author);
-            book.setCategoryId(category);
-            book.setPublisherId(publisher);
+//            book.setAuthorId(author);
+//            book.setCategoryId(category);
+//            book.setPublisherId(publisher);
+            book.setLoanable(false);
+            book.setActive(true);
+            book.setCreateDate(LocalDateTime.now());
+            book.setBuiltIn(false);
 
             bookRepository.save(book);
 

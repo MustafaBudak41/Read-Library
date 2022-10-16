@@ -32,18 +32,18 @@ public class BookDTO {
 
         private int pageCount;
 
-        @NotNull(message = "PLease provide author for book")
-        private Author authorId;
-
-        @NotNull(message = "Please provide publisher for book")
-        private Publisher publisherId;
+//        @NotNull(message = "PLease provide author for book")
+//        private Author authorId;
+//
+//        @NotNull(message = "Please provide publisher for book")
+//        private Publisher publisherId;
 
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern =
                 "yyyy", timezone = "Turkey")
         private int publishDate;
 
-        @NotNull(message = "Please provide category for book")
-        private Category categoryId;
+//        @NotNull(message = "Please provide category for book")
+//        private Category categoryId;
 
 //        private File image;
 
