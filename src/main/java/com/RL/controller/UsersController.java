@@ -1,6 +1,7 @@
 package com.RL.controller;
 
 import com.RL.domain.User;
+import com.RL.dto.request.CreateUserRequest;
 import com.RL.dto.request.RegisterRequest;
 import com.RL.service.IUserService;
 import lombok.AllArgsConstructor;
@@ -27,8 +28,8 @@ public class UsersController {
         //LocalDateTime datetime = LocalDateTime.parse(input, oldPattern);
         //String output = datetime.format(newPattern);
     @PostMapping("/users")
-    public  ResponseEntity<Map<String,String>> saveUser(@Valid @RequestBody RegisterRequest registerRequest){
-        User newUser= userService.saveUser(registerRequest);
+    public  ResponseEntity<Map<String,String>> saveUser(@Valid @RequestBody CreateUserRequest createUserRequest){
+        User newUser= userService.saveUser(createUserRequest);
 
         Map<String,String> map=new HashMap<>();
         map.put("id : ", newUser.getId().toString());

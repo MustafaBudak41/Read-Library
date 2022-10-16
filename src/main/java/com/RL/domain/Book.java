@@ -3,6 +3,7 @@ package com.RL.domain;
 
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -49,8 +50,10 @@ public class Book {
     @Column(nullable = false)
     private boolean featured=false;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern =
+            "MM/dd/yyyy HH:mm:ss", timezone = "Turkey")
     @Column(nullable = false)
-    private LocalDateTime createDate;
+    private LocalDateTime createDate=LocalDateTime.now();
 
     @Column(nullable = false)
     private boolean builtIn=false;
