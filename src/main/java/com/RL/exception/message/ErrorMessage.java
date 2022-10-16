@@ -18,6 +18,7 @@ public class ErrorMessage {
     public final static String PASSWORD_NOT_MATCHED="You password are not matched";
 
     public final static String NOT_PERMITTED_METHOD_MESSAGE="You don't have any permission to change this value";
+    public final static String EMAIL_ALREADY_EXIST="this email already exist";
 
     public final static String EMAIL_ALREADY_EXIST="This email already exists";
 

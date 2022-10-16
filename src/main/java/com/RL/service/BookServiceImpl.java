@@ -5,6 +5,7 @@ import com.RL.domain.Book;
 import com.RL.domain.Category;
 import com.RL.domain.Publisher;
 import com.RL.dto.BookDTO;
+import com.RL.dto.mapper.BookMapper;
 import com.RL.exception.ResourceNotFoundException;
 import com.RL.exception.message.ErrorMessage;
 import com.RL.repository.AuthorRepository;
@@ -24,9 +25,10 @@ public class BookServiceImpl implements IBookService {
         private AuthorRepository authorRepository;
         private CategoryRepository categoryRepository;
         private PublisherRepository publisherRepository;
+        private BookMapper bookMapper;
 
         @Override
-        public void createBook(BookDTO bookDTO) {
+        public Book createBook(BookDTO bookDTO)  {
 
             Author author = authorRepository.findById(bookDTO.getAuthorId().getId()).orElseThrow(()-> new
                     ResourceNotFoundException(String.format(ErrorMessage.AUTHOR_NOT_FOUND_MESSAGE, bookDTO.getAuthorId().getId())));
@@ -37,18 +39,15 @@ public class BookServiceImpl implements IBookService {
             Publisher publisher = publisherRepository.findById(bookDTO.getPublisherId().getId()).orElseThrow(()-> new
                     ResourceNotFoundException(String.format(ErrorMessage.PUBLISHER_NOT_FOUND_MESSAGE, bookDTO.getPublisherId().getId())));
 
-            Book book = new Book();
-            book.setName(bookDTO.getName());
-            book.setIsbn(bookDTO.getIsbn());
-            book.setPageCount(bookDTO.getPageCount());
-            book.setPublishDate(bookDTO.getPublishDate());
-            book.setShelfCode(bookDTO.getShelfCode());
+            Book book = bookMapper.bookDTOToBook(bookDTO);
 
             book.setAuthorId(author);
             book.setCategoryId(category);
             book.setPublisherId(publisher);
 
             bookRepository.save(book);
+
+            return book;
         }
 
 
