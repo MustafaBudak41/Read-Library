@@ -20,4 +20,5 @@ public class ErrorMessage {
     public final static String NOT_PERMITTED_METHOD_MESSAGE="You don't have any permission to change this value";
 
 
+    public static final String EMAIL_ALREADY_EXIST = "";
 }
