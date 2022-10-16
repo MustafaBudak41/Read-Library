@@ -30,6 +30,19 @@ spring:
       max-file-size: 2MB
       max-request-size: 2MB
 
+logging:
+  file:
+    name: logs/RL.log
+  pattern:
+    file: "%d %-5level [%thread] %logger:%msg%n"
+
+  level:
+    '[org.springframework.web]': INFO
+    '[org.hibernate]': INFO
+    '[com.greenrent]': DEBUG
+
+
+
 RL:
   app:
     jwtSecret: readlibrary@55

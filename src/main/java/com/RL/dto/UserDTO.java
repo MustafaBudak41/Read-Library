@@ -20,6 +20,7 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserDTO {//datalogic ile ilgili hicbirsey burda olmamali
+    //bu dto disari donmek icin
     /*
     @NotNull
     @DateTimeFormat(pattern = "dd.MM.yyyy HH:mm:ss")
@@ -27,42 +28,28 @@ public class UserDTO {//datalogic ile ilgili hicbirsey burda olmamali
     @DateTimeFormat(pattern = "dd.MM.yyyy HH:mm:ss")
     private Date updated;
      */
+    private Long id;
 
-
-    @NotNull(message="Please provide first name")
-    @Size(min=2, max=30,message="Your first name '${validatedValue}' must be between {min} and {max} chars long")
     private String firstName;
 
-    @NotNull(message="Please provide last name")
-    @Size(min=2, max=30,message="Your last name '${validatedValue}' must be between {min} and {max} chars long")
     private String lastName;
 
-    @NotNull(message="Please provide address")
-    @Size(min=10, max=100,message="Address '${validatedValue}' must be between {min} and {max} chars long")
     private String address;
 
-    @NotNull(message="Please provide phone number")
-    @Size(min=12, max=12,message="Phone number '${validatedValue}' must be {max} chars long")
-    @Pattern(regexp = "^\\d{3}-\\d{3}-\\d{4}$",message = "Please provide valid phone number")
     private String phone;
 
-    @NotNull(message="Please provide birthDate")
     private Date birthDate;
 
-    @Email(message = "Please provide valid email")
-    @NotNull(message="Please provide email")
-    @Size(min=10, max=80,message="Email '${validatedValue}' must be between {min} and {max} chars long")
     private String email;
 
-    @NotNull(message="Please provide password")
-    private String password;
+    private Boolean builtIn ;
 
-    private Set<String> roles;
+    private Set<String> roles;//db de ki enum role type lari string olarak donduk
 
     public void setRoles(Set<Role> roles) {
         Set<String> rolesStr = new HashSet<>();
 
-        roles.forEach(m-> {
+        roles.forEach(m-> {//role mapping islmelri
             if (m.getName().equals(RoleType.ROLE_ADMIN))
                 rolesStr.add("Administrator");
             else if(m.getName().equals(RoleType.ROLE_MEMBER))

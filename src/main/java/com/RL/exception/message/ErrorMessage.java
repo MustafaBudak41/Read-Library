@@ -16,7 +16,6 @@ public class ErrorMessage {
     public final static String USER_NOT_FOUND_MESSAGE="User with id %d not found";
     public final static String USER_USED_BY_LOAN_MESSAGE = "User could not be deleted. User loaned a book";
     public final static String PASSWORD_NOT_MATCHED="You password are not matched";
-    public final static String EMAIL_ALREADY_EXIST="You password are not matched";
 
     public final static String NOT_PERMITTED_METHOD_MESSAGE="You don't have any permission to change this value";
     public final static String EMAIL_ALREADY_EXIST="this email already exist";
