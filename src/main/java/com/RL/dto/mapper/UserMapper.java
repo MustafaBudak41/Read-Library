@@ -4,7 +4,9 @@ import java.util.List;
 
 import com.RL.domain.User;
 import com.RL.dto.UserDTO;
+import com.RL.dto.request.CreateUserRequest;
 import com.RL.dto.request.RegisterRequest;
+import com.RL.dto.request.SignInRequest;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
@@ -17,7 +19,10 @@ public interface UserMapper {
 	@Mapping(target="roles",ignore=true)
 	User userDTOToUser(UserDTO userDTO);
 
-	User userDTOToUser(RegisterRequest  registerRequest);
+	User createUserRequestToUser(CreateUserRequest createUserRequest);
+	User registerRequestToUser(RegisterRequest registerRequest);
+	User signInRequestToUser(SignInRequest signInRequest);
+
 
 	List<UserDTO> map(List<User> user);
 

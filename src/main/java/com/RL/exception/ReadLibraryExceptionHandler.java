@@ -3,6 +3,8 @@ package com.RL.exception;
 import com.RL.exception.message.ApiResponseError;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
@@ -45,14 +47,14 @@ public class ReadLibraryExceptionHandler extends ResponseEntityExceptionHandler 
         ApiResponseError error=new ApiResponseError(HttpStatus.INTERNAL_SERVER_ERROR,ex.getMessage(),request.getDescription(false));
         return buildResponseEntity(error);
     }
-//    @ExceptionHandler(AccessDeniedException.class)
-//    protected ResponseEntity<Object> handleAccessDeniedException(AccessDeniedException ex,WebRequest request){
-//        ApiResponseError error=new ApiResponseError(HttpStatus.FORBIDDEN,ex.getMessage(),request.getDescription(false));
-//        return buildResponseEntity(error);
-//    }
-//    @ExceptionHandler(AuthenticationException.class)
-//    protected ResponseEntity<Object> handleAuthenticationException(AuthenticationException ex,WebRequest request){
-//        ApiResponseError error=new ApiResponseError(HttpStatus.BAD_REQUEST,ex.getMessage(),request.getDescription(false));
-//        return buildResponseEntity(error);
-//    }
+    @ExceptionHandler(AccessDeniedException.class)
+    protected ResponseEntity<Object> handleAccessDeniedException(AccessDeniedException ex,WebRequest request){
+        ApiResponseError error=new ApiResponseError(HttpStatus.FORBIDDEN,ex.getMessage(),request.getDescription(false));
+        return buildResponseEntity(error);
+    }
+    @ExceptionHandler(AuthenticationException.class)
+    protected ResponseEntity<Object> handleAuthenticationException(AuthenticationException ex,WebRequest request){
+        ApiResponseError error=new ApiResponseError(HttpStatus.BAD_REQUEST,ex.getMessage(),request.getDescription(false));
+        return buildResponseEntity(error);
+    }
 }
