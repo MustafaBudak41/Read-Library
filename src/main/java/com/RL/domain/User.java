@@ -67,7 +67,7 @@ public class User {
     private Set<Role> roles = new HashSet<>();
 
     @OneToMany(mappedBy="userId")
-    private List<Loan> loan;
+    private List<Loan> loan;//new ArrayList<>();
 
 
 }
