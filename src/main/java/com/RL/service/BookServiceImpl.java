@@ -30,16 +30,18 @@ public class BookServiceImpl implements IBookService {
         @Override
         public Book createBook(BookDTO bookDTO)  {
 
-            Author author = authorRepository.findById(bookDTO.getAuthorId().getId()).orElseThrow(()-> new
-                    ResourceNotFoundException(String.format(ErrorMessage.AUTHOR_NOT_FOUND_MESSAGE, bookDTO.getAuthorId().getId())));
+            Author author = authorRepository.findById(bookDTO.getAuthorId()).orElseThrow(()-> new
+                    ResourceNotFoundException(String.format(ErrorMessage.AUTHOR_NOT_FOUND_MESSAGE, bookDTO.getAuthorId())));
 
-            Category category = categoryRepository.findById(bookDTO.getCategoryId().getId()).orElseThrow(()-> new
-                    ResourceNotFoundException(String.format(ErrorMessage.CATEGORY_NOT_FOUND_MESSAGE, bookDTO.getCategoryId().getId())));
+            Category category = categoryRepository.findById(bookDTO.getCategoryId()).orElseThrow(()-> new
+                    ResourceNotFoundException(String.format(ErrorMessage.CATEGORY_NOT_FOUND_MESSAGE, bookDTO.getCategoryId())));
 
-            Publisher publisher = publisherRepository.findById(bookDTO.getPublisherId().getId()).orElseThrow(()-> new
-                    ResourceNotFoundException(String.format(ErrorMessage.PUBLISHER_NOT_FOUND_MESSAGE, bookDTO.getPublisherId().getId())));
+            Publisher publisher = publisherRepository.findById(bookDTO.getPublisherId()).orElseThrow(()-> new
+                    ResourceNotFoundException(String.format(ErrorMessage.PUBLISHER_NOT_FOUND_MESSAGE, bookDTO.getPublisherId())));
 
-            Book book = bookMapper.bookDTOToBook(bookDTO);
+           Book book = bookMapper.bookDTOToBook(bookDTO);
+
+
 
             book.setAuthorId(author);
             book.setCategoryId(category);

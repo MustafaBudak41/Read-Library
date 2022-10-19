@@ -7,10 +7,12 @@ import com.RL.dto.UserDTO;
 import com.RL.dto.request.CreateUserRequest;
 import com.RL.dto.request.RegisterRequest;
 import com.RL.dto.request.SignInRequest;
+import com.RL.dto.request.UpdateRequest;
 import com.RL.dto.response.PageResponse;
 import com.RL.dto.response.RLResponse;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.springframework.data.domain.Page;
 
 
 @Mapper(componentModel = "spring")
@@ -18,12 +20,15 @@ public interface UserMapper {
 
 	UserDTO userToUserDTO(User user);
 	PageResponse userToPageResponse(User user);
+
 	RLResponse userToRLResponse(User user);
+
 
 	@Mapping(target="roles",ignore=true)
 	User userDTOToUser(UserDTO userDTO);
 
 	User createUserRequestToUser(CreateUserRequest createUserRequest);
+	User updateRequestToUser(UpdateRequest updateRequest);
 	User registerRequestToUser(RegisterRequest registerRequest);
 	User signInRequestToUser(SignInRequest signInRequest);
 

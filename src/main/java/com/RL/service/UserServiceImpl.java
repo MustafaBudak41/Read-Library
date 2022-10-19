@@ -1,4 +1,5 @@
 package com.RL.service;
+import java.util.*;
 import java.util.function.Function;
 import com.RL.domain.Role;
 import com.RL.domain.User;
@@ -8,6 +9,7 @@ import com.RL.dto.mapper.UserMapper;
 import com.RL.dto.request.CreateUserRequest;
 import com.RL.dto.request.RegisterRequest;
 import com.RL.dto.request.SignInRequest;
+import com.RL.dto.request.UpdateRequest;
 import com.RL.dto.response.PageResponse;
 import com.RL.dto.response.RLResponse;
 import com.RL.exception.BadRequestException;
@@ -26,9 +28,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 @Service
 @AllArgsConstructor
@@ -83,7 +82,6 @@ public class UserServiceImpl implements IUserService {
 
 
 
-
     @Override
     //@Transactional(noRollbackFor = SomeException)
     public User saveUser(CreateUserRequest createUserRequest) {
@@ -91,8 +89,7 @@ public class UserServiceImpl implements IUserService {
             throw new ConflictException(String.format(ErrorMessage.EMAIL_ALREADY_EXIST, createUserRequest.getEmail()));
         }
 
-         String resetPassword=createUserRequest.getPassword().replace(createUserRequest.getPassword(), createUserRequest.getLastName());
-
+         String resetPassword=createUserRequest.getLastName();
 
         User user = userMapper.createUserRequestToUser(createUserRequest);
         user.setResetPasswordCode(resetPassword);//mapper da bunu null geldigi icin ugrasmadim
@@ -115,19 +112,82 @@ public class UserServiceImpl implements IUserService {
 
         return dtoPage;
     }
+
+    //TODO neden rlResponse name null geliyor
     public Page<RLResponse> getUsersPage(Pageable pageable) {
         Page<User> users = userRepository.findAll(pageable);
-        Page<RLResponse> dtoPage = users.map(new Function<User, RLResponse>() {
+        Page<RLResponse> dtoPage = users.map(user -> userMapper.userToRLResponse(user));
 
-            @Override
-            public RLResponse apply(User user) {
-                return userMapper.userToRLResponse(user);
-            }
-        });
 
         return dtoPage;
 
     }
+
+
+
+    public UserDTO findById(Long id) {
+        User user = userRepository.findById(id).orElseThrow(
+                () -> new ResourceNotFoundException(String.format(ErrorMessage.RESOURCE_NOT_FOUND_MESSAGE, id)));
+
+        return userMapper.userToUserDTO(user);
+    }
+
+    @Override
+    public List<UserDTO> getAllUsers() {
+        List<User> users = userRepository.findAll();
+        return userMapper.map(users);
+    }
+
+    @Override
+    public List<User> findUsers(String lastName) {
+        return null;
+    }
+
+    @Override
+    public User findUser(Long id) throws ResourceNotFoundException {
+        return null;
+    }
+
+    @Override
+    public User updateUserByAdmin(Long id ,UpdateRequest updateRequest) {
+        User user = userRepository.findById(id).orElseThrow(
+                () -> new ResourceNotFoundException(String.format(ErrorMessage.RESOURCE_NOT_FOUND_MESSAGE, id)));
+
+        if (user.getBuiltIn()) {
+            throw new BadRequestException(ErrorMessage.NOT_PERMITTED_METHOD_MESSAGE);
+        }
+        User userUpdated =userMapper.updateRequestToUser(updateRequest);
+            userUpdated.setId(user.getId());
+            userUpdated.setResetPasswordCode(updateRequest.getLastName());
+
+            userRepository.save(userUpdated);
+
+            return userUpdated;
+    }
+    @Override
+    public User memberUserUpdate(Long id, UpdateRequest updateRequest) {
+        User user = userRepository.findById(id).orElseThrow(
+                () -> new ResourceNotFoundException(String.format(ErrorMessage.RESOURCE_NOT_FOUND_MESSAGE, id)));
+
+        if (user.getBuiltIn()) {
+            throw new BadRequestException(ErrorMessage.NOT_PERMITTED_METHOD_MESSAGE);
+        }
+
+
+            if (user.getRoles().toString().contains(RoleType.ROLE_MEMBER.name())){
+                User userUpdated =userMapper.updateRequestToUser(updateRequest);
+                userUpdated.setId(user.getId());
+                userUpdated.setResetPasswordCode(updateRequest.getLastName());
+
+                userRepository.save(userUpdated);
+
+
+            }
+        return user;
+    }
+
+
+
     /**
      * @param id PK for user
      * for the user that has related records in
@@ -144,53 +204,12 @@ public class UserServiceImpl implements IUserService {
         if(exists) {
             throw new BadRequestException(ErrorMessage.USER_USED_BY_LOAN_MESSAGE);
         }
-
         if (user.getBuiltIn()) {
             throw new BadRequestException(ErrorMessage.NOT_PERMITTED_METHOD_MESSAGE);
         }
-
-       userRepository.deleteById(id);
-
+        userRepository.deleteById(id);
         return userMapper.userToUserDTO(user);
 
-
-
     }
-
-
-
-
-
-
-
-    public UserDTO findById(Long id) {
-        User user = userRepository.findById(id).orElseThrow(
-                () -> new ResourceNotFoundException(String.format(ErrorMessage.RESOURCE_NOT_FOUND_MESSAGE, id)));
-
-        return userMapper.userToUserDTO(user);
-    }
-    @Override
-    public List<User> getAll() {
-
-
-        return null;
-    }
-
-    @Override
-    public List<User> findUsers(String lastName) {
-        return null;
-    }
-
-    @Override
-    public User findUser(Long id) throws ResourceNotFoundException {
-        return null;
-    }
-
-
-    @Override
-    public void updateUser(UserDTO userDTO) {
-
-    }
-
 
 }
