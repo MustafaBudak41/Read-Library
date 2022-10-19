@@ -3,7 +3,7 @@ package com.RL.exception.message;
 public class ErrorMessage {
 
     public final static String ROLE_NOT_FOUND_MESSAGE="Role with id %s not found";
-
+    public final static String RESOURCE_NOT_FOUND_MESSAGE="Resource with id %d not found";
     public final static String BOOK_NOT_FOUND_MESSAGE="Book with id %d not found";
     public final static String BOOK_NOT_AVAILABLE_MESSAGE="Book with id %d cant loanable";
 
@@ -19,6 +19,8 @@ public class ErrorMessage {
 
     public final static String NOT_PERMITTED_METHOD_MESSAGE="You don't have any permission to change this value";
     public final static String EMAIL_ALREADY_EXIST="this email already exist";
+
+    public final static String EMAIL_ALREADY_EXIST1="This email already exists";
 
 
 }

@@ -1,11 +1,15 @@
 package com.RL.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import javax.validation.Valid;
 
+import com.RL.dto.response.RLResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,17 +24,22 @@ import com.RL.service.PublisherService;
 import lombok.AllArgsConstructor;
 
 @RestController
-@RequestMapping("/publisher")
+@RequestMapping
 @AllArgsConstructor
 public class PublisherController {
-	
-	@Autowired
+
 	private PublisherService publisherService;
 	
-	@PostMapping
-	public ResponseEntity<String> createPublisher(@Valid @RequestBody Publisher publisher){
-		publisherService.createPublisher(publisher);
-		return ResponseEntity.ok("The publisher is created");
+	@PostMapping("/publisher")
+	public ResponseEntity<Map<String,String>> createPublisher(@Valid @RequestBody Publisher publisher){
+		Publisher newPublisher= publisherService.createPublisher(publisher);
+
+
+		Map<String,String> map=new HashMap<>();
+		map.put("id : ", newPublisher.getId().toString());
+		map.put("name : ",newPublisher.getName());
+
+		return new ResponseEntity<>(map, HttpStatus.CREATED);
 	}
 	
 	@GetMapping

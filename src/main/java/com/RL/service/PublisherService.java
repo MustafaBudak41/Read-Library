@@ -3,14 +3,12 @@ package com.RL.service;
 
 
 import java.util.List;
-import java.util.Optional;
 
 import com.RL.repository.PublisherRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.RL.domain.Publisher;
-import com.RL.exception.ResourceNotFoundException;
 
 import lombok.AllArgsConstructor;
     @Service
@@ -24,9 +22,11 @@ import lombok.AllArgsConstructor;
 
 
         //http://localhost:8080/publisher
-        public void createPublisher(Publisher publisher) {
-            publisherRepository.save(publisher);
+        public Publisher createPublisher(Publisher publisher) {
 
+            Publisher publisher1= publisherRepository.save(publisher);
+
+            return  publisher1;
         }
 
         //http://localhost:8080/publisher

@@ -32,29 +32,31 @@ public class BookDTO {
 
         private int pageCount;
 
-        @NotNull(message = "PLease provide author for book")
-        private Author authorId;
-
-        @NotNull(message = "Please provide publisher for book")
-        private Publisher publisherId;
-
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern =
                 "yyyy", timezone = "Turkey")
         private int publishDate;
 
-        @NotNull(message = "Please provide category for book")
-        private Category categoryId;
-
-//        private File image;
+        private File image;
 
         @Size(min = 5, max = 8, message = "34")
         @NotNull(message = "Please provide shelf code")
         @Pattern(regexp = "^[A-Z]{2}-\\d{3}$", message = "Please provide valid shelf code")
         private String shelfCode;
 
+        @NotNull(message = "Please provide active featured")
+        private boolean active;
+
         @NotNull(message = "Please provide book featured")
         private boolean featured;
 
+        @NotNull(message = "PLease provide author for book")
+        private Long authorId;
+
+        @NotNull(message = "Please provide publisher for book")
+        private Long publisherId;
+
+        @NotNull(message = "Please provide category for book")
+        private Long categoryId;
 
 
     }
