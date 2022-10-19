@@ -4,6 +4,7 @@ import com.RL.domain.User;
 import com.RL.dto.UserDTO;
 import com.RL.dto.request.CreateUserRequest;
 import com.RL.dto.request.RegisterRequest;
+import com.RL.dto.request.UpdateRequest;
 import com.RL.dto.response.PageResponse;
 import com.RL.dto.response.RLResponse;
 import com.RL.exception.ResourceNotFoundException;
@@ -15,12 +16,13 @@ import java.util.List;
 public interface IUserService {
 
 
-    List<User> getAll();
+    List<UserDTO> getAllUsers();
     List<User> findUsers(String lastName);
     User findUser(Long id) throws ResourceNotFoundException;
     User saveUser(CreateUserRequest createUserRequest);
     User register(RegisterRequest registerRequest);
-    void updateUser(UserDTO userDTO);
+    User updateUserByAdmin(Long id, UpdateRequest updateRequest);
+    User memberUserUpdate(Long id, UpdateRequest updateRequest);
     UserDTO deleteUser(Long id);
     UserDTO findById(Long id);
     Page<PageResponse> getUserLoanPage(Pageable pageable);

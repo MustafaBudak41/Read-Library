@@ -42,6 +42,10 @@ public class UserDTO {//datalogic ile ilgili hicbirsey burda olmamali
 
     private String email;
 
+    private String password;
+
+    private String resetPasswordCode;
+
     private Boolean builtIn ;
 
     private Set<String> roles;//db de ki enum role type lari string olarak donduk
