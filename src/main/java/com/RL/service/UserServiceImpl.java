@@ -44,7 +44,6 @@ public class UserServiceImpl implements IUserService {
             throw new ConflictException(String.format(ErrorMessage.EMAIL_ALREADY_EXIST, registerRequest.getEmail()));
         }
 
-      // mapper ile yapildi
         String encodedPassword = passwordEncoder.encode(registerRequest.getPassword());
 
         String resetPassword=registerRequest.getLastName();
@@ -89,11 +88,14 @@ public class UserServiceImpl implements IUserService {
             throw new ConflictException(String.format(ErrorMessage.EMAIL_ALREADY_EXIST, createUserRequest.getEmail()));
         }
 
+
+        String encodedPassword = passwordEncoder.encode(createUserRequest.getPassword());
          String resetPassword=createUserRequest.getLastName();
 
         User user = userMapper.createUserRequestToUser(createUserRequest);
         user.setResetPasswordCode(resetPassword);//mapper da bunu null geldigi icin ugrasmadim
 
+        user.setPassword(encodedPassword);
         userRepository.save(user);
         return user;
     }
