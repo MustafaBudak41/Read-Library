@@ -42,7 +42,6 @@ public class AuthorService {
         }
         foundAuthor.setId(id);
         foundAuthor.setName(author.getName());
-        foundAuthor.setBuiltIn(author.getBuiltIn());
         repository.save(foundAuthor);
         return foundAuthor;
     }
