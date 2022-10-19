@@ -37,17 +37,17 @@ public class LoanDTO {
     @Size(min = 10,max = 200, message = "Message must be between ${min} and ${max} chars long")
     private String notes;
 
-    private UserDTO userId;
+    private Long userId;
 
     private BookDTO bookId;
 
-    //public LoanDTO(Loan loan){
-    //    this.id=loan.getId();
-    //    this.loanDate=loan.getLoanDate();
-    //    this.expireDate=loan.getExpireDate();
-    //    this.returnDate=loan.getReturnDate();
-    //    this.notes=loan.getNotes();
-    //    this.userId= new UserDTO(loan.getUserId())
-    //    this.bookId=new BookDTO(loan.getBookId());
-    //}
+    public LoanDTO(Loan loan){
+        this.id=loan.getId();
+        this.loanDate=loan.getLoanDate();
+        this.expireDate=loan.getExpireDate();
+        this.returnDate=loan.getReturnDate();
+        this.notes=loan.getNotes();
+        this.userId= loan.getUserId().getId();
+        //this.bookId=new BookDTO(loan.getBookId());
+    }
 }
