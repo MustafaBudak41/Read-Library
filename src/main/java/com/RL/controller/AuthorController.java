@@ -69,4 +69,21 @@ public class AuthorController {
         return new ResponseEntity<>(map,HttpStatus.CREATED);
     }
 
+//    @GetMapping("/users")
+//    @PreAuthorize("hasRole('ADMIN') or  hasRole('EMPLOYEE')")
+//    public ResponseEntity<Page<RLResponse>> getAllUsersByPage(@RequestParam("page") int page,
+//                                                              @RequestParam("size") int size,
+//                                                              @RequestParam("sort") String prop,
+//                                                              @RequestParam("type") Direction type){
+//        Pageable pageable= PageRequest.of(page, size, Sort.by(type, prop));
+//        Page<RLResponse> userDTOPage=userService.getUsersPage(pageable);
+//
+//        return ResponseEntity.ok(userDTOPage);
+//    }
+
+
+
+
+
+
 }

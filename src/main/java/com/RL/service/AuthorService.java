@@ -55,4 +55,16 @@ public class AuthorService {
         repository.deleteById(id);
         return author;
     }
+
+//    public Page<RLResponse> getUsersPage(Pageable pageable) {
+//        Page<User> users = userRepository.findAll(pageable);
+//        Page<RLResponse> dtoPage = users.map(user -> userMapper.userToRLResponse(user));
+//
+//
+//        return dtoPage;
+//
+//    }
+
+
+
 }
