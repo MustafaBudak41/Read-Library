@@ -25,21 +25,17 @@ public class AuthorService {
         repository.save(author);
         return author;
     }
-
-
     public List<AuthorDTO> getAll() {
         List<Author> authorList = repository.findAll();
         return authorMapper.map(authorList);
     }
-
 
     public AuthorDTO findById(Long id) {
         Author author = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Author not found"));
         return authorMapper.authorToAuthorDTO(author);
     }
 
-
-   public Author updateAuthor(Long id, Author author) {
+    public Author updateAuthor(Long id, Author author) {
         Author foundAuthor = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Author not found"));
         if(foundAuthor.getBuiltIn()) {
             throw new BadRequestException(ErrorMessage.NOT_PERMITTED_METHOD_MESSAGE);
@@ -48,13 +44,15 @@ public class AuthorService {
         foundAuthor.setName(author.getName());
         foundAuthor.setBuiltIn(author.getBuiltIn());
         repository.save(foundAuthor);
-       return foundAuthor;
+        return foundAuthor;
     }
 
     public Author deleteById(Long id) {
         Author author = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Author not found"));
+        if(!author.getBooks().isEmpty()) {
+            throw  new ResourceNotFoundException("You cannot delete an author who has a book");
+        }
         repository.deleteById(id);
         return author;
     }
-
 }
