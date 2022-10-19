@@ -9,4 +9,6 @@ import com.RL.dto.BookDTO;
 public interface IBookService {
 
     Book createBook (BookDTO bookDTO);
+//    Book deleteBook (Long id);
+    Book findBookById(Long id);
 }

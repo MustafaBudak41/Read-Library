@@ -21,4 +21,5 @@ public class ErrorMessage {
     public final static String EMAIL_ALREADY_EXIST="this email already exist";
 
 
+    public final static String BOOK_LOANED_OUT = "Book already loaned";
 }

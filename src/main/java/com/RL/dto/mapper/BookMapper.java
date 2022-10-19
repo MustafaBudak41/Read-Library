@@ -13,4 +13,6 @@ public interface BookMapper {
     @Mapping(target = "categoryId", ignore = true)
     @Mapping(target = "image", ignore = true)
     Book bookDTOToBook(BookDTO bookDTO);
+
+    BookDTO bookToBookDTO(Book book);
 }
