@@ -32,4 +32,11 @@ public interface LoanRepository extends JpaRepository<Loan,Long> {
 
     // 3.method // Hocaya Sorulacak
     Page<LoanDTO> findAllByUserId(Long userId, Pageable pageable);
+
+    // muzaffer beyden gelen
+    boolean existsByUserId(User user);
+
+    // yahya beyden gelen
+    boolean existsByBookId(Book book);
+
 }
