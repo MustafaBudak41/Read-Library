@@ -7,6 +7,8 @@ import com.RL.dto.request.RegisterRequest;
 import com.RL.dto.request.UpdateRequest;
 import com.RL.dto.response.PageResponse;
 import com.RL.dto.response.RLResponse;
+import com.RL.exception.ResourceNotFoundException;
+import com.RL.exception.message.ErrorMessage;
 import com.RL.service.IUserService;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -38,6 +40,7 @@ public class UsersController {
         //LocalDateTime datetime = LocalDateTime.parse(input, oldPattern);
         //String output = datetime.format(newPattern);
     @PostMapping("/users")
+    @PreAuthorize("hasRole('ADMIN') or  hasRole('EMPLOYEE')")
     public  ResponseEntity<Map<String,String>> saveUser(@Valid @RequestBody CreateUserRequest createUserRequest){
         User newUser= userService.saveUser(createUserRequest);
 
@@ -133,7 +136,11 @@ member type users.
         if (userUpdateRequest.getFirstName()!=userUpdated.getFirstName()){
 
             map.put("id : ", id.toString());
-            map.put("error : ","an employee can update only member type users");
+            String str= ErrorMessage.NOT_PERMITTED_METHOD_MESSAGE;
+            map.put("error : ",str);
+        }else{
+            map.put("id : ", userUpdated.getId().toString());
+            map.put("name : ",userUpdated.getFirstName());
         }
         return new ResponseEntity<>(map,HttpStatus.OK);
     }
