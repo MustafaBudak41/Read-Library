@@ -23,4 +23,5 @@ public class ErrorMessage {
     public final static String EMAIL_ALREADY_EXIST1="This email already exists";
 
 
+    public static final String EMAIL_ALREADY_EXIST = "";
 }
