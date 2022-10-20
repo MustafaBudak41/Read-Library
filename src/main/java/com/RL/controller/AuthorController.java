@@ -96,7 +96,7 @@ public class AuthorController {
 
     @GetMapping("/authors/download")
 //    @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<Resource> getUserReport(){
+    public ResponseEntity<Resource> getAuthorReport(){
         String fileName="authors.xlsx";
 
         try {
@@ -107,7 +107,7 @@ public class AuthorController {
                     .contentType(MediaType.parseMediaType("application/vmd.ms-excel")).body(file);
 
         } catch (IOException e) {
-            throw  new ResourceNotFoundException("bla bla bla bla");
+            throw  new ResourceNotFoundException("Error occurred while generation excel report");
         }
     }
 
