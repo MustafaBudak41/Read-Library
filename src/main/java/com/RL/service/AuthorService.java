@@ -26,7 +26,6 @@ import java.util.List;
 public class AuthorService {
 
     private AuthorRepository repository;
-    private BookRepository bookRepository;
     private AuthorMapper authorMapper;
 
     public Author createAuthor(AuthorDTO authorDTO) {
@@ -57,6 +56,9 @@ public class AuthorService {
 
     public Author deleteById(Long id) {
         Author author = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Author not found"));
+        if(author.getBuiltIn()) {
+            throw new BadRequestException(ErrorMessage.NOT_PERMITTED_METHOD_MESSAGE);
+        }
         if(!author.getBooks().isEmpty()) {
             throw  new ResourceNotFoundException("You cannot delete an author who has a book");
         }
@@ -64,7 +66,7 @@ public class AuthorService {
         return author;
     }
 
-    public Page<AuthorDTO> getUserPage(Pageable pageable) {
+    public Page<AuthorDTO> getAuthorPage(Pageable pageable) {
         Page<Author> authors = repository.findAll(pageable);
         Page<AuthorDTO> dtoPage = authors.map(new Function<Author, AuthorDTO>() {
             @Override

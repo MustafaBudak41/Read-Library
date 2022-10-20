@@ -1,6 +1,6 @@
-package com.RL.domain;
+package com.RL.dto;
 
-
+import com.RL.domain.Book;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,27 +16,15 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
-@Table(name="tbl_category")
-public class Category {
+public class PublisherDTO {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+
     private Long id;
 
     @NotNull(message="Name can not be null")
     @NotBlank(message="Name can not be white space")
-    @Size(min=2,max=80, message="Name '${validatedValue}' must be between {min} and {max} chars long")
-    @Column(length = 80, nullable = false)
+    @Size(min=2,max=50, message="Name '${validatedValue}' must be between {min} and {max} chars long")
     private String name;
-
-    private Boolean builtIn=false;
-
-    @NotNull(message="Sequence can not be null")
-    private int sequence;
-
-    @OneToMany(mappedBy="categoryId")
-    private List<Book> books;
 
 
 }

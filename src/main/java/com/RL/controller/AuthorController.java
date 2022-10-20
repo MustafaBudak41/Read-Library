@@ -59,7 +59,7 @@ public class AuthorController {
                                                             @RequestParam("direction") Direction direction){
 
         Pageable pageable=PageRequest.of(page, size, Sort.by(direction,prop));
-        Page<AuthorDTO> userDTOPage=authorService.getUserPage(pageable);
+        Page<AuthorDTO> userDTOPage=authorService.getAuthorPage(pageable);
         return ResponseEntity.ok(userDTOPage);
     }
 
