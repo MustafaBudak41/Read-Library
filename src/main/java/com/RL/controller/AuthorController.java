@@ -1,18 +1,19 @@
 package com.RL.controller;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import com.RL.domain.Author;
-import com.RL.domain.User;
+
 import com.RL.dto.AuthorDTO;
-import com.RL.dto.mapper.AuthorMapper;
-import com.RL.dto.request.RegisterRequest;
 import com.RL.service.AuthorService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.List;
@@ -35,10 +36,22 @@ public class AuthorController {
         return new ResponseEntity<>(map,HttpStatus.CREATED);
     }
 
+//    @GetMapping("/authors")
+//    public ResponseEntity<List<AuthorDTO>> getAll(){
+//        List<AuthorDTO> authors=authorService.getAll();
+//        return ResponseEntity.ok(authors);
+//    }
+
+    //   http://localhost:8080/authors?size=10&page=0&sort=name&direction=ASC
     @GetMapping("/authors")
-    public ResponseEntity<List<AuthorDTO>> getAll(){
-        List<AuthorDTO> authors=authorService.getAll();
-        return ResponseEntity.ok(authors);
+    public ResponseEntity<Page<AuthorDTO>> getAllUserByPage(@RequestParam("page") int page,
+                                                            @RequestParam("size") int size,
+                                                            @RequestParam("sort") String prop,
+                                                            @RequestParam("direction") Direction direction){
+
+        Pageable pageable=PageRequest.of(page, size, Sort.by(direction,prop));
+        Page<AuthorDTO> userDTOPage=authorService.getUserPage(pageable);
+        return ResponseEntity.ok(userDTOPage);
     }
 
     @GetMapping("/authors/{id}")
@@ -68,22 +81,5 @@ public class AuthorController {
         map.put("name : ",author.getName());
         return new ResponseEntity<>(map,HttpStatus.CREATED);
     }
-
-//    @GetMapping("/users")
-//    @PreAuthorize("hasRole('ADMIN') or  hasRole('EMPLOYEE')")
-//    public ResponseEntity<Page<RLResponse>> getAllUsersByPage(@RequestParam("page") int page,
-//                                                              @RequestParam("size") int size,
-//                                                              @RequestParam("sort") String prop,
-//                                                              @RequestParam("type") Direction type){
-//        Pageable pageable= PageRequest.of(page, size, Sort.by(type, prop));
-//        Page<RLResponse> userDTOPage=userService.getUsersPage(pageable);
-//
-//        return ResponseEntity.ok(userDTOPage);
-//    }
-
-
-
-
-
 
 }

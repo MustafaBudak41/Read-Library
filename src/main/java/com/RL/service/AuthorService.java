@@ -9,6 +9,11 @@ import com.RL.exception.message.ErrorMessage;
 import com.RL.repository.AuthorRepository;
 import com.RL.repository.BookRepository;
 import lombok.AllArgsConstructor;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import java.util.function.Function;
+
 import org.springframework.stereotype.Service;
 import java.util.List;
 
@@ -55,14 +60,18 @@ public class AuthorService {
         return author;
     }
 
-//    public Page<RLResponse> getUsersPage(Pageable pageable) {
-//        Page<User> users = userRepository.findAll(pageable);
-//        Page<RLResponse> dtoPage = users.map(user -> userMapper.userToRLResponse(user));
-//
-//
-//        return dtoPage;
-//
-//    }
+    public Page<AuthorDTO> getUserPage(Pageable pageable) {
+        Page<Author> users = repository.findAll(pageable);
+        Page<AuthorDTO> dtoPage = users.map(new Function<Author, AuthorDTO>() {
+            @Override
+            public AuthorDTO apply(Author author) {
+                return authorMapper.authorToAuthorDTO(author);
+            }
+        });
+
+        return dtoPage;
+    }
+
 
 
 
