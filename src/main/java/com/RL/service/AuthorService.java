@@ -61,8 +61,8 @@ public class AuthorService {
     }
 
     public Page<AuthorDTO> getUserPage(Pageable pageable) {
-        Page<Author> users = repository.findAll(pageable);
-        Page<AuthorDTO> dtoPage = users.map(new Function<Author, AuthorDTO>() {
+        Page<Author> authors = repository.findAll(pageable);
+        Page<AuthorDTO> dtoPage = authors.map(new Function<Author, AuthorDTO>() {
             @Override
             public AuthorDTO apply(Author author) {
                 return authorMapper.authorToAuthorDTO(author);
