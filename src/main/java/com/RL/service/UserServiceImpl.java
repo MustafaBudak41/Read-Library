@@ -1,6 +1,8 @@
 package com.RL.service;
+
 import java.util.*;
 import java.util.function.Function;
+
 import com.RL.domain.Role;
 import com.RL.domain.User;
 import com.RL.domain.enums.RoleType;
@@ -27,6 +29,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
 
 @Service
@@ -46,7 +49,7 @@ public class UserServiceImpl implements IUserService {
 
         String encodedPassword = passwordEncoder.encode(registerRequest.getPassword());
 
-        String resetPassword=registerRequest.getLastName();
+        String resetPassword = registerRequest.getLastName();
 
         Role role = roleRepository.findByName(RoleType.ROLE_MEMBER).
                 orElseThrow(() -> new ResourceNotFoundException(
@@ -69,64 +72,43 @@ public class UserServiceImpl implements IUserService {
         user.setResetPasswordCode(resetPassword);
         user.setBuiltIn(false);
 
-
-
         user.setRoles(roles);
-
-      //  User user = userMapper.registerRequestToUser(registerRequest);
 
         userRepository.save(user);
         return user;
     }
 
-
-
     @Override
-    //@Transactional(noRollbackFor = SomeException)
     public User saveUser(CreateUserRequest createUserRequest) {
         if (userRepository.existsByEmail(createUserRequest.getEmail())) {
             throw new ConflictException(String.format(ErrorMessage.EMAIL_ALREADY_EXIST, createUserRequest.getEmail()));
         }
 
-
         String encodedPassword = passwordEncoder.encode(createUserRequest.getPassword());
-         String resetPassword=createUserRequest.getLastName();
+        String resetPassword = createUserRequest.getLastName();
 
         User user = userMapper.createUserRequestToUser(createUserRequest);
-        user.setResetPasswordCode(resetPassword);//mapper da bunu null geldigi icin ugrasmadim
+        user.setResetPasswordCode(resetPassword);
 
         user.setPassword(encodedPassword);
         userRepository.save(user);
         return user;
     }
 
-
-    //    @Transactional(readOnly = true)
-    public Page<PageResponse> getUserLoanPage(Pageable pageable) {
+    public Page<UserDTO> getUserLoanPage(Pageable pageable) {
         Page<User> users = userRepository.findAll(pageable);
-        Page<PageResponse> dtoPage = users.map(new Function<User, PageResponse>() {
-
-            @Override
-            public PageResponse apply(User user) {
-                return userMapper.userToPageResponse(user);
-            }
-        });
+        Page<UserDTO> dtoPage = users.map(user -> userMapper.userToUserDTO(user));
 
         return dtoPage;
     }
 
-    //TODO neden rlResponse name null geliyor
     public Page<RLResponse> getUsersPage(Pageable pageable) {
         Page<User> users = userRepository.findAll(pageable);
         Page<RLResponse> dtoPage = users.map(user -> userMapper.userToRLResponse(user));
 
-
         return dtoPage;
 
     }
-
-
-
     public UserDTO findById(Long id) {
         User user = userRepository.findById(id).orElseThrow(
                 () -> new ResourceNotFoundException(String.format(ErrorMessage.RESOURCE_NOT_FOUND_MESSAGE, id)));
@@ -140,32 +122,24 @@ public class UserServiceImpl implements IUserService {
         return userMapper.map(users);
     }
 
-    @Override
-    public List<User> findUsers(String lastName) {
-        return null;
-    }
 
     @Override
-    public User findUser(Long id) throws ResourceNotFoundException {
-        return null;
-    }
-
-    @Override
-    public User updateUserByAdmin(Long id ,UpdateRequest updateRequest) {
+    public User updateUserByAdmin(Long id, UpdateRequest updateRequest) {
         User user = userRepository.findById(id).orElseThrow(
                 () -> new ResourceNotFoundException(String.format(ErrorMessage.RESOURCE_NOT_FOUND_MESSAGE, id)));
 
         if (user.getBuiltIn()) {
             throw new BadRequestException(ErrorMessage.NOT_PERMITTED_METHOD_MESSAGE);
         }
-        User userUpdated =userMapper.updateRequestToUser(updateRequest);
-            userUpdated.setId(user.getId());
-            userUpdated.setResetPasswordCode(updateRequest.getLastName());
+        User userUpdated = userMapper.updateRequestToUser(updateRequest);
+        userUpdated.setId(user.getId());
+        userUpdated.setResetPasswordCode(updateRequest.getLastName());
 
-            userRepository.save(userUpdated);
+        userRepository.save(userUpdated);
 
-            return userUpdated;
+        return userUpdated;
     }
+
     @Override
     public User memberUserUpdate(Long id, UpdateRequest updateRequest) {
         User user = userRepository.findById(id).orElseThrow(
@@ -176,25 +150,24 @@ public class UserServiceImpl implements IUserService {
         }
 
 
-            if (user.getRoles().toString().contains(RoleType.ROLE_MEMBER.name())){
-                User userUpdated =userMapper.updateRequestToUser(updateRequest);
-                userUpdated.setId(user.getId());
-                userUpdated.setResetPasswordCode(updateRequest.getLastName());
+        if (user.getRoles().toString().contains(RoleType.ROLE_MEMBER.name())) {
+            User userUpdated = userMapper.updateRequestToUser(updateRequest);
+            userUpdated.setId(user.getId());
+            userUpdated.setResetPasswordCode(updateRequest.getLastName());
 
-                userRepository.save(userUpdated);
+            userRepository.save(userUpdated);
 
 
-            }
+        }
         return user;
     }
 
 
-
     /**
      * @param id PK for user
-     * for the user that has related records in
-     * loans table, delete operation is
-     * not permitted
+     *           for the user that has related records in
+     *           loans table, delete operation is
+     *           not permitted
      * @return deleted userDTO
      */
     @Override
@@ -203,7 +176,7 @@ public class UserServiceImpl implements IUserService {
                 () -> new ResourceNotFoundException(String.format(ErrorMessage.RESOURCE_NOT_FOUND_MESSAGE, id)));
 
         boolean exists = loanRepository.existsByUserId(user);
-        if(exists) {
+        if (exists) {
             throw new BadRequestException(ErrorMessage.USER_USED_BY_LOAN_MESSAGE);
         }
         if (user.getBuiltIn()) {

@@ -38,22 +38,22 @@ public class PublisherController {
 		return ResponseEntity.ok(publisher);
 	}
 
-	@GetMapping("/{id}")
-
-	public ResponseEntity<Publisher> getPublisher(@PathVariable("id") Long id) {
-		Publisher publisher = publisherService.getPublisher(id);
-		return ResponseEntity.ok(publisher);
-	}
-
-	@DeleteMapping("/{id}")
-	public ResponseEntity<Map<String, String>> deletePublisher(@PathVariable Long id) {
-		publisherService.deletePublisher(id);
-		Map<String, String> map = new HashMap<>();
-		map.put("message", "Publisher successfully deleted");
-		map.put("status", "true");
-		return new ResponseEntity<>(map, HttpStatus.OK);
-
-	}
+//	@GetMapping("/{id}")
+//
+//	public ResponseEntity<Publisher> getPublisher(@PathVariable("id") Long id) {
+//		Publisher publisher = publisherService.getPublisher(id);
+//		return ResponseEntity.ok(publisher);
+//	}
+//
+//	@DeleteMapping("/{id}")
+//	public ResponseEntity<Map<String, String>> deletePublisher(@PathVariable Long id) {
+//		publisherService.deletePublisher(id);
+//		Map<String, String> map = new HashMap<>();
+//		map.put("message", "Publisher successfully deleted");
+//		map.put("status", "true");
+//		return new ResponseEntity<>(map, HttpStatus.OK);
+//
+//	}
 //@PutMapping("/{id}")
 //	public ResponseEntity<Map<String, String>> updatePublisher(@PathVariable Long id, @Valid @RequestBody Publisher publisher) {
 //		PublisherService.updatePublisher(id, publisher);

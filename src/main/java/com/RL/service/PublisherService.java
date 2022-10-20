@@ -37,20 +37,20 @@ import org.springframework.web.bind.annotation.GetMapping;
 
         //http://localhost:8080/publisher/97
 
-        public static Publisher getPublisher(Long id)throws ResourceNotFoundException{
-            return publisherRepository.findById(id).orElseThrow(() ->
-                  new ResourceNotFoundException(String.format(ErrorMessage.PUBLISHER_NOT_FOUND_MESSAGE, id)));
-
-            //findById ile gelen deger null ise exception dondurur degilse gelen degeri kullanır
-
-        }
-
-        //http://localhost:8080/publisher/97
-        public void deletePublisher(Long id) throws ResourceNotFoundException {
-            Publisher publisher = getPublisher(id);
-            publisherRepository.delete(publisher);
-
-        }
+//        public static Publisher getPublisher(Long id)throws ResourceNotFoundException{
+//            return publisherRepository.findById(id).orElseThrow(() ->
+//                  new ResourceNotFoundException(String.format(ErrorMessage.PUBLISHER_NOT_FOUND_MESSAGE, id)));
+//
+//            //findById ile gelen deger null ise exception dondurur degilse gelen degeri kullanır
+//
+//        }
+//
+//        //http://localhost:8080/publisher/97
+//        public void deletePublisher(Long id) throws ResourceNotFoundException {
+//            Publisher publisher = getPublisher(id);
+//            publisherRepository.delete(publisher);
+//
+//        }
 //       public static void updatePublisher(Long id, Publisher newPublisher){
 //           Publisher foundPublisher = getPublisher(id);
 
