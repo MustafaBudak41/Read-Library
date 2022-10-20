@@ -17,21 +17,20 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
-public class UserDetailsImpl implements UserDetails  {//security UserDetails istiryor
+public class UserDetailsImpl implements UserDetails {
 
 	private Long id;
 	
 	private String email;
 	
-	@JsonIgnore//bu class i disari cikarmak istersen
+	@JsonIgnore
 	private String password;
 	
-	private Collection<? extends GrantedAuthority> authorities;//GrantedAuthority i extends eden herseyi buraya veriyoruz
+	private Collection<? extends GrantedAuthority> authorities;
 	
-	
-	public static UserDetailsImpl build(User user) {//security benden SimpleGrantedAuthority tipinden istiyor
+	public static UserDetailsImpl build(User user) {
 		List<GrantedAuthority> authorities=user.getRoles().stream().map(role->new SimpleGrantedAuthority(role.getName().name()))
-		   .collect(Collectors.toList());//role bilgileriniz GrantedAuthority tipine cevirdik
+		   .collect(Collectors.toList());
 
 		return new UserDetailsImpl(user.getId(),user.getEmail(),user.getPassword(),authorities);
 	}

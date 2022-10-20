@@ -12,8 +12,8 @@ import lombok.Setter;
 @NoArgsConstructor
 public class PageResponse {
 
-        Long id;
-        String firstName;
-        Long bookId;
+    private Long id;
+    private String firstName;
+    private Long bookId;
 
 }

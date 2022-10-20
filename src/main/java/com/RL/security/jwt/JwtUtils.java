@@ -16,30 +16,29 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.SignatureException;
 import io.jsonwebtoken.UnsupportedJwtException;
 
-@Component//baska yere enjekte edebilmek icin
+@Component
 public class JwtUtils {
 
-    private static Logger logger=LoggerFactory.getLogger(JwtUtils.class); //exception;ari lolog a basmak icin
+    private static Logger logger=LoggerFactory.getLogger(JwtUtils.class);
 
-    @Value("${RL.app.jwtSecret}")//yaml da belirttik
+    @Value("${RL.app.jwtSecret}")
     private String jwtSecret;
 
-    @Value("${RL.app.jwtExpirationMs}")//yaml da belirttik
+    @Value("${RL.app.jwtExpirationMs}")
     private long jwtExpirationMs;
 
     public String generateJwtToken(Authentication authentication) {
-        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();//cuurent login olan user i aldik
+        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
 
-        return Jwts.builder()//heryerde ayni olan yapi dependensy bunu istiyor
+        return Jwts.builder()
                 .setSubject("" + (userDetails.getId()))
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(new Date().getTime() + jwtExpirationMs))
                 .signWith(SignatureAlgorithm.HS512, jwtSecret)
-                .compact();//token olusturma kodu
-
+                .compact();
     }
 
-    public Long getIdFromJwtToken(String token) {//gelen token dan id yi extract ettik
+    public Long getIdFromJwtToken(String token) {
         String strId = Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody().getSubject();
         return Long.parseLong(strId);
     }

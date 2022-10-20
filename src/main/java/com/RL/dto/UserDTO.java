@@ -35,9 +35,7 @@ public class UserDTO {
 
     private String email;
 
-    private String password;
-
-    private String resetPasswordCode;
+    private LocalDateTime createDate ;
 
     private Boolean builtIn ;
 
@@ -70,8 +68,6 @@ public class UserDTO {
         this.phone= user.getPhone();
         this.birthDate= user.getBirthDate();
         this.email=user.getEmail();
-        this.password= user.getPassword();
-        this.resetPasswordCode=user.getResetPasswordCode();
         this.builtIn=user.getBuiltIn();
         this.roles= Collections.singleton(user.getRoles().toString());
         this.loan=user.getLoan();

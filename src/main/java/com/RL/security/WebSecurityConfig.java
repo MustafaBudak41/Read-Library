@@ -21,7 +21,7 @@ import lombok.AllArgsConstructor;
 
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true)//authorization islemleri icin
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 @AllArgsConstructor
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter  {
 
@@ -31,16 +31,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter  {
 	protected void configure(HttpSecurity http) throws Exception {
 		
 		http.csrf().
-				disable().//csrf  disble etmezsen delete put gibi islemleri yapamazsin
+				disable().
 		sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().
 		authorizeRequests().antMatchers("/register","/signin").permitAll().
 		anyRequest().authenticated();
 
 		http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
-		//bu filter isteklerden once calisacagini soyledik
 		
-	}//yuklarisi yonetecegin path ler icin
-
+	}
 	
 	@Bean 
 	public AuthTokenFilter authenticationJwtTokenFilter() {
@@ -48,12 +46,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter  {
 	}
 	
 	@Bean
-	@Override//login islemleri isin bu lazim
+	@Override
 	protected AuthenticationManager authenticationManager() throws Exception {
 		return super.authenticationManager();
 	}
 
-	@Override//kendi user details imi security e tanitiyorum
+	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
 	}

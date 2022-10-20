@@ -11,13 +11,18 @@ server:
 #    username: hjyfsbogaprmme
 #    password: 9e1d21287754f836561cfb168f112e2ebcccf13a515b7975d86e00e98c23f6d7
 #    driver-class-name: org.postgresql.Driver
-
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/read_library
-    username: library
-    password: 123456
+    url: jdbc:postgresql://localhost:5432/carrental_db
+    username: carrentaluser
+    password: admin
     driver-class-name: org.postgresql.Driver
+#spring:
+#  datasource:
+#    url: jdbc:postgresql://localhost:5432/read_library
+#    username: library
+#    password: 123456
+#    driver-class-name: org.postgresql.Driver
 
   jpa:
     show-sql: true

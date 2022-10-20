@@ -19,14 +19,14 @@ import org.springframework.util.AntPathMatcher;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-//gelen request dispather servletta n once buaraya gfeliyor
+
 public class AuthTokenFilter extends OncePerRequestFilter {
 
 	@Autowired
 	private JwtUtils jwtUtils;
 
 	@Autowired
-	private UserDetailsService userDetailsService;//securitide arik userlarim bu tipte
+	private UserDetailsService userDetailsService;
 
 	@Autowired
 	private UserRepository userRepository;
@@ -36,7 +36,7 @@ public class AuthTokenFilter extends OncePerRequestFilter {
 			throws ServletException, IOException {
 
 		try {
-			String jwt = parseJwt(request);//aldigin jwt yi dogrulamak icin
+			String jwt = parseJwt(request);
 
 			if (jwt != null && jwtUtils.validateJwtToken(jwt)) {
 				Long id = jwtUtils.getIdFromJwtToken(jwt);
@@ -44,6 +44,7 @@ public class AuthTokenFilter extends OncePerRequestFilter {
 				Optional<User> user = userRepository.findById(id);
 
 				request.setAttribute("id", user.get().getId());
+				request.setAttribute("role",user.get().getRoles());
 
 				UserDetails userDetails = userDetailsService.loadUserByUsername(user.get().getEmail());
 
@@ -51,28 +52,27 @@ public class AuthTokenFilter extends OncePerRequestFilter {
 						userDetails, null, userDetails.getAuthorities());
 
 				SecurityContextHolder.getContext().setAuthentication(authentication);
-				//bu filtreyi  gectikten sonra
-				//yetki gerektiren islemlerde current user in bilgilerini security contextten aliyrorz
+
 			}
 
 		} catch (Exception e) {
 			logger.error("User Authentication error");
 		}
 
-		filterChain.doFilter(request, response);//son nolta en onemli yer
+		filterChain.doFilter(request, response);
 	}
-	//gelen request authorization header isinde beraer token i almak lazim bu methodu yzadik
+
 	private String parseJwt(HttpServletRequest request) {
 		String headerAuth = request.getHeader("Authorization");
 
 		if (StringUtils.hasText(headerAuth) && headerAuth.startsWith("Bearer ")) {
-			return headerAuth.substring(7);//neden 7 cunku bearer token kismini almak istiyroum
+			return headerAuth.substring(7);
 		}
 
 		return null;
 	}
 
-	@Override//filtrelemek istemedigin istekler
+	@Override
 	protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
 		AntPathMatcher antPathMatcher = new AntPathMatcher();
 		return antPathMatcher.match("/register", request.getServletPath())

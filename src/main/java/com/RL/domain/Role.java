@@ -28,5 +28,6 @@ public class Role {
     @Column(nullable = false)
     private RoleType name;
 
+    private Long roleCount;
 
 }

@@ -17,7 +17,7 @@ public class UserRepositoryTest {
 
         @Autowired
     UserRepository userRepository;
-    @Test
+  //  @Test
 
     public void saveUserTest(){
         List<User> userList=new ArrayList<>();

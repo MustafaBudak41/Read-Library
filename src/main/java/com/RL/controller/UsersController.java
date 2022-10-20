@@ -3,7 +3,6 @@ import com.RL.domain.User;
 import com.RL.dto.UserDTO;
 import com.RL.dto.request.CreateUserRequest;
 import com.RL.dto.request.UpdateRequest;
-import com.RL.dto.response.PageResponse;
 import com.RL.dto.response.RLResponse;
 import com.RL.exception.message.ErrorMessage;
 import com.RL.service.IUserService;
@@ -17,11 +16,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -92,7 +89,7 @@ public class UsersController {
         return ResponseEntity.ok(response);
 
     }
-    @PutMapping("/user/{id}")//TODO ayri yapildi tek yapilabilir mi
+    @PutMapping("/user/{id}") //TODO ayri yapildi tek yapilabilir mi
     @PreAuthorize("hasRole('EMPLOYEE')")
     public ResponseEntity<Map<String,String>> updateUserByEmployee(@PathVariable Long id, @Valid @RequestBody
             UpdateRequest userUpdateRequest){

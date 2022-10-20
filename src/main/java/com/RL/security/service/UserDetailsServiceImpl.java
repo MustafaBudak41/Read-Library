@@ -11,7 +11,7 @@ import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
 @Service
-public class UserDetailsServiceImpl implements UserDetailsService {//kendi user larimi bu service ile disari aciyorum
+public class UserDetailsServiceImpl implements UserDetailsService {
 
 	private UserRepository userRepository;
 	
@@ -21,7 +21,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {//kendi user 
 		User user=userRepository.findByEmail(email).orElseThrow(()->new
 				UsernameNotFoundException(String.format(ErrorMessage.USER_NOT_FOUND_MESSAGE, email)));
 		
-		return UserDetailsImpl.build(user);//kendi user imi  UserDetailsImpl classindaki build methodu ile security e verdim
+		return UserDetailsImpl.build(user);
 	}
 
 }
