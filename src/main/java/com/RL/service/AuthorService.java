@@ -78,10 +78,10 @@ public class AuthorService {
 
 
 
-    public ByteArrayInputStream getAuthorsReport() throws IOException {
-        List<Author> authors= repository.findAll();
-        return ExcelReportHelper.getAuthorsExcelReport(authors);
-    }
+//    public ByteArrayInputStream getAuthorsReport() throws IOException {
+//        List<Author> authors= repository.findAll();
+//        return ExcelReportHelper.getAuthorsExcelReport(authors);
+//    }
 
 
 

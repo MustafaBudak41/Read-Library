@@ -7,9 +7,6 @@ import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 
-
-
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -94,22 +91,22 @@ public class AuthorController {
         return new ResponseEntity<>(map,HttpStatus.CREATED);
     }
 
-    @GetMapping("/authors/download")
-//    @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<Resource> getAuthorReport(){
-        String fileName="AuthorsReport.xlsx";
-
-        try {
-            ByteArrayInputStream bais= authorService.getAuthorsReport();
-            InputStreamResource file=new InputStreamResource(bais);
-
-            return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,"attachment;filename="+fileName)
-                    .contentType(MediaType.parseMediaType("application/vmd.ms-excel")).body(file);
-
-        } catch (IOException e) {
-            throw  new ResourceNotFoundException("Error occurred while generation excel report");
-        }
-    }
+//    @GetMapping("/authors/download")
+////    @PreAuthorize("hasRole('ADMIN')")
+//    public ResponseEntity<Resource> getAuthorReport(){
+//        String fileName="AuthorsReport.xlsx";
+//
+//        try {
+//            ByteArrayInputStream bais= authorService.getAuthorsReport();
+//            InputStreamResource file=new InputStreamResource(bais);
+//
+//            return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,"attachment;filename="+fileName)
+//                    .contentType(MediaType.parseMediaType("application/vmd.ms-excel")).body(file);
+//
+//        } catch (IOException e) {
+//            throw  new ResourceNotFoundException("Error occurred while generation excel report");
+//        }
+//    }
 
 
 }
