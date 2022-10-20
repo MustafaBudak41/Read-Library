@@ -50,7 +50,7 @@ public class AuthorController {
         return new ResponseEntity<>(map,HttpStatus.OK);
     }
 
-    @PatchMapping("/authors/{id}")
+    @PutMapping("/authors/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Map<String,String>> updateAuthor(@PathVariable("id") Long id, @Valid @RequestBody Author author){
         Author author1 = authorService.updateAuthor(id,author);
