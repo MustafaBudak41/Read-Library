@@ -97,7 +97,7 @@ public class AuthorController {
     @GetMapping("/authors/download")
 //    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Resource> getAuthorReport(){
-        String fileName="authors.xlsx";
+        String fileName="AuthorsReport.xlsx";
 
         try {
             ByteArrayInputStream bais= authorService.getAuthorsReport();
