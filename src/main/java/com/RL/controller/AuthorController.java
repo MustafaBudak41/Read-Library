@@ -1,5 +1,15 @@
 package com.RL.controller;
 
+
+import com.RL.exception.ResourceNotFoundException;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+
+
+
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -15,6 +25,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -81,5 +93,23 @@ public class AuthorController {
         map.put("name : ",author.getName());
         return new ResponseEntity<>(map,HttpStatus.CREATED);
     }
+
+    @GetMapping("/authors/download")
+//    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<Resource> getUserReport(){
+        String fileName="authors.xlsx";
+
+        try {
+            ByteArrayInputStream bais= authorService.getAuthorsReport();
+            InputStreamResource file=new InputStreamResource(bais);
+
+            return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,"attachment;filename="+fileName)
+                    .contentType(MediaType.parseMediaType("application/vmd.ms-excel")).body(file);
+
+        } catch (IOException e) {
+            throw  new ResourceNotFoundException("bla bla bla bla");
+        }
+    }
+
 
 }

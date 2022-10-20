@@ -6,12 +6,16 @@ import com.RL.dto.mapper.AuthorMapper;
 import com.RL.exception.BadRequestException;
 import com.RL.exception.ResourceNotFoundException;
 import com.RL.exception.message.ErrorMessage;
+import com.RL.helper.ExcelReportHelper;
 import com.RL.repository.AuthorRepository;
 import com.RL.repository.BookRepository;
 import lombok.AllArgsConstructor;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.util.function.Function;
 
 import org.springframework.stereotype.Service;
@@ -70,6 +74,13 @@ public class AuthorService {
         });
 
         return dtoPage;
+    }
+
+
+
+    public ByteArrayInputStream getAuthorsReport() throws IOException {
+        List<Author> authors= repository.findAll();
+        return ExcelReportHelper.getAuthorsExcelReport(authors);
     }
 
 
