@@ -42,7 +42,7 @@ public class ReadLibraryExceptionHandler extends ResponseEntityExceptionHandler 
         ApiResponseError error=new ApiResponseError(HttpStatus.INTERNAL_SERVER_ERROR,ex.getMessage(),request.getServletPath());
         return buildResponseEntity(error);
     }
-    @ExceptionHandler(RuntimeException.class)//beklenen disinda bir exception gelirse
+    @ExceptionHandler(RuntimeException.class)
     protected ResponseEntity<Object> handleGeneralException(RuntimeException ex,WebRequest request){
         ApiResponseError error=new ApiResponseError(HttpStatus.INTERNAL_SERVER_ERROR,ex.getMessage(),request.getDescription(false));
         return buildResponseEntity(error);

@@ -61,7 +61,7 @@ public class ReportController {
 
     }
 
-    @GetMapping("/report/most-popular-books")
+    @GetMapping("/report/most-popular-books/{amount}")
     public ResponseEntity<Page<BookDTO>> findMostPopularBooks(@PathVariable int amount,
                                                               @RequestParam(value = "page") int page,
                                                               @RequestParam(value = "size") int size) {

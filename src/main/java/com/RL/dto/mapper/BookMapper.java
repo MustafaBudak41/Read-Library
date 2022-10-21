@@ -2,6 +2,7 @@ package com.RL.dto.mapper;
 
 import com.RL.domain.Book;
 import com.RL.dto.BookDTO;
+import com.RL.dto.BookUpdateDTO;
 import com.RL.dto.response.BookResponse;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -20,5 +21,12 @@ public interface BookMapper {
     List<BookResponse> map(List<Book> book);
 
     BookResponse bookToBookResponse(Book book);
+
+    @Mapping(target = "authorId", ignore = true)
+    @Mapping(target = "publisherId", ignore = true)
+    @Mapping(target = "categoryId", ignore = true)
+    @Mapping(target = "image", ignore = true)
+    Book bookUpdateDTOToBook(BookUpdateDTO bookUpdateDTO);
+
 
 }

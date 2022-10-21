@@ -18,6 +18,8 @@ import java.util.List;
 @AllArgsConstructor
 public class AuthorDTO {
 
+    private Long id;
+
     @NotNull(message="Name can not be null")    @NotBlank(message="Name can not be white space")
     @Size(min=4,max=70, message="Name '${validatedValue}' must be between {min} and {max} chars long")
     private String name;

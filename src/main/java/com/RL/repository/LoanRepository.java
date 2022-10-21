@@ -29,7 +29,6 @@ public interface LoanRepository extends JpaRepository<Loan,Long> {
             "where l.userId.id=?1")
     Page<LoanDTO> findAllWithPageByUserId(Long userId, Pageable pageable);
 
-
     //2.method
     @Query("SELECT l from Loan l WHERE l.id = ?1 and l.userId.id = ?2")
     Loan findByIdAndUserId(Long loanId, Long userId);

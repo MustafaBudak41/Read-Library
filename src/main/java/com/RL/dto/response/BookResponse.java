@@ -16,4 +16,10 @@ public class BookResponse {
     private String name;
     private String isbn;
 
+
+    public BookResponse(Book book) {
+        this.id = book.getId();
+        this.name = book.getName();
+        this.isbn = book.getIsbn();
+    }
 }

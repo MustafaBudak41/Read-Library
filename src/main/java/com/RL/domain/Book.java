@@ -4,6 +4,7 @@ package com.RL.domain;
 import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -74,6 +75,7 @@ public class Book {
     private Category categoryId;
 
     @OneToMany(mappedBy = "bookId")
+    @JsonIgnore
     private List<Loan> loansList;
 
 

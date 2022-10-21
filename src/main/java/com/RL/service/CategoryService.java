@@ -68,12 +68,7 @@ public class CategoryService {
 
     public Page<CategoryDTO> getCategoryPage(Pageable pageable) {
         Page<Category> categories = repository.findAll(pageable);
-        Page<CategoryDTO> dtoPage = categories.map(new Function<Category, CategoryDTO>() {
-            @Override
-            public CategoryDTO apply(Category category) {
-                return categoryMapper.categoryToCategoryDTO(category);
-            }
-        });
+        Page<CategoryDTO> dtoPage = categories.map(category -> categoryMapper.categoryToCategoryDTO(category));
 
         return dtoPage;
     }

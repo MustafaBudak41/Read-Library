@@ -2,6 +2,7 @@ package com.RL.domain;
 
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -36,7 +37,6 @@ public class Loan {
     private LocalDateTime expireDate;
 
     @JsonFormat(shape= JsonFormat.Shape.STRING, pattern = "MM/dd/yyyy HH:mm:ss", timezone = "Turkey")
-    //@NotNull(message="Please provide return")
     private LocalDateTime returnDate;
 
     @Column(length = 300)

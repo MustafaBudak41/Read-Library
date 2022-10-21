@@ -31,7 +31,6 @@ public class LoanDTO {
     private LocalDateTime expireDate;
 
     @JsonFormat(shape= JsonFormat.Shape.STRING, pattern = "MM/dd/yyyy HH:mm:ss", timezone = "Turkey")
-   // @NotNull(message="Please provide return")
     private LocalDateTime returnDate;
 
     @Size(min = 10,max = 200, message = "Message must be between ${min} and ${max} chars long")
@@ -39,7 +38,7 @@ public class LoanDTO {
 
     private Long userId;
 
-    private BookDTO bookId;
+    private Long bookId;
 
     public LoanDTO(Loan loan){
         this.id=loan.getId();
@@ -48,6 +47,6 @@ public class LoanDTO {
         this.returnDate=loan.getReturnDate();
         this.notes=loan.getNotes();
         this.userId= loan.getUserId().getId();
-        //this.bookId=new BookDTO(loan.getBookId());
+        this.bookId= loan.getBookId().getId();
     }
 }
