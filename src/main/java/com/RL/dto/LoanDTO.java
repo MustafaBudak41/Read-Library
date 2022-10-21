@@ -31,7 +31,7 @@ public class LoanDTO {
     private LocalDateTime expireDate;
 
     @JsonFormat(shape= JsonFormat.Shape.STRING, pattern = "MM/dd/yyyy HH:mm:ss", timezone = "Turkey")
-    @NotNull(message="Please provide return")
+   // @NotNull(message="Please provide return")
     private LocalDateTime returnDate;
 
     @Size(min = 10,max = 200, message = "Message must be between ${min} and ${max} chars long")

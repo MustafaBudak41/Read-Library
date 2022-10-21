@@ -16,6 +16,8 @@ public interface LoanRepository extends JpaRepository<Loan,Long> {
             "where l.expireDate<l.returnDate and l.userId=?1")
     List<Loan>findExpiredLoansBy(Long userId);
 
+    List<Loan> findLoanByReturnDateIsNull();
+
     List<Loan> findAllByUserId(User userId);
 
     List<Loan> findAllByBookId(Book bookId);
