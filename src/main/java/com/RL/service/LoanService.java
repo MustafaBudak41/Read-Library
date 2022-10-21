@@ -4,13 +4,17 @@ package com.RL.service;
 import com.RL.domain.Book;
 import com.RL.domain.Loan;
 import com.RL.domain.User;
+import com.RL.dto.LoanDTO;
 import com.RL.exception.BadRequestException;
 import com.RL.exception.ResourceNotFoundException;
 import com.RL.repository.BookRepository;
 import com.RL.repository.LoanRepository;
 import com.RL.repository.UserRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -59,11 +63,11 @@ public class LoanService {
 
     }
 
-    public List<Loan> findAllLoansByUserId(Long userId){
+    public Page<LoanDTO> findAllLoansByUserId(Long userId,Pageable pageable){
         User user=userRepository.findById(userId).orElseThrow(()->
                 new ResourceNotFoundException(String.format(USER_NOT_FOUND_MESSAGE,userId)) );
 
-        return loanRepository.findAllByUserId(user);
+        return loanRepository.findAllByUserId(userId,pageable);
 
     }
 
@@ -103,5 +107,17 @@ public class LoanService {
         loanRepository.save(loan);
 
 
+    }
+
+    //1.method
+    @Transactional(readOnly=true)
+    public Page<LoanDTO> findLoansWithPageByUserId(Long userId, Pageable pageable) {
+        return  loanRepository.findAllWithPageByUserId(userId,pageable);
+
+    }
+    //2.method
+    public Loan getByIdAndUserId(Long loanId, Long userId) {
+        Loan loan = loanRepository.findByIdAndUserId(loanId, userId);
+        return loan;
     }
 }
