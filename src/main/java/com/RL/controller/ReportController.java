@@ -1,5 +1,6 @@
 package com.RL.controller;
 
+import com.RL.dto.BookDTO;
 import com.RL.dto.UserDTO;
 import com.RL.dto.response.BookResponse;
 import com.RL.dto.response.RLResponse;
@@ -10,12 +11,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -48,12 +47,13 @@ public class ReportController {
         return ResponseEntity.ok(bookResponse);
 
     }
+
     @GetMapping("/report/expired-books")
     @PreAuthorize("hasRole('ADMIN') or hasRole('EMPLOYEE')")
     public ResponseEntity<List<BookResponse>> getReportsWithPageExpiredBooks(@RequestParam("page") int page,
-                                                                 @RequestParam("size") int size,
-                                                                 @RequestParam("sort") String prop,
-                                                                 @RequestParam("type") Sort.Direction type) {
+                                                                             @RequestParam("size") int size,
+                                                                             @RequestParam("sort") String prop,
+                                                                             @RequestParam("type") Sort.Direction type) {
 
         Pageable pageable = PageRequest.of(page, size, Sort.by(type, prop));
         List<BookResponse> bookResponse = reportService.findReportsWithPageExpiredBooks(pageable);
@@ -61,7 +61,17 @@ public class ReportController {
 
     }
 
+    @GetMapping("/report/most-popular-books")
+    public ResponseEntity<Page<BookDTO>> findMostPopularBooks(@PathVariable int amount,
+                                                              @RequestParam(value = "page") int page,
+                                                              @RequestParam(value = "size") int size) {
 
+
+        Pageable pageable = PageRequest.of(page, size);
+        Page<BookDTO> mostPopularBooks = reportService.findMostPopularBooks(amount, pageable);
+
+        return new ResponseEntity<>(mostPopularBooks, HttpStatus.OK);
+    }
 
 //    @GetMapping("/report/most-borrowers")
 //    @PreAuthorize("hasRole('ADMIN') or hasRole('EMPLOYEE')")

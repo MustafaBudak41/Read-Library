@@ -5,6 +5,7 @@ import com.RL.domain.Loan;
 import com.RL.domain.Role;
 import com.RL.domain.User;
 import com.RL.domain.enums.RoleType;
+import com.RL.dto.BookDTO;
 import com.RL.dto.UserDTO;
 import com.RL.dto.mapper.BookMapper;
 import com.RL.dto.mapper.UserMapper;
@@ -78,6 +79,14 @@ public class ReportService {
         List<BookResponse>dtoPage =  bookMapper.map(books);
         return dtoPage;
     }
+// Report MostpopularBook Method
+
+    public Page<BookDTO> findMostPopularBooks(int amount, Pageable pageable) {
+
+        return loanRepository.findMostPopularLimitByAmount(amount,pageable);
+
+    }
+
 
 //    public Page<RLResponse> findReportMostBorrowers(Pageable pageable) {
 //
