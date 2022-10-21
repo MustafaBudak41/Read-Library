@@ -32,10 +32,13 @@ public class Book {
     @Column(length = 17, nullable = false)
     private String isbn;
 
+    @Column
     private int pageCount;
 
+    @Column
     private int publishDate;
 
+    @Column
     private File image;
 
     @Column(nullable = false)
