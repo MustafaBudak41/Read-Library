@@ -1,41 +1,29 @@
 package com.RL.dto;
 
-import com.RL.domain.Role;
-import com.RL.domain.enums.RoleType;
+import com.RL.domain.Book;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import java.util.HashSet;
-import java.util.Set;
+import javax.validation.constraints.Size;
+import java.util.List;
 
-@Setter
 @Getter
-@AllArgsConstructor
+@Setter
 @NoArgsConstructor
+@AllArgsConstructor
 public class PublisherDTO {
 
-    @NotNull(message = "Please enter name Publisher")
+
+    private Long id;
+
+    @NotNull(message = "Name can not be null")
+    @NotBlank(message = "Name can not be white space")
+    @Size(min = 2, max = 50, message = "Name '${validatedValue}' must be between {min} and {max} chars long")
     private String name;
 
-    private Set<String> roles;
-
-    public void setRoles(Set<Role> roles){
-        Set<String> roleStr = new HashSet<>();
-
-        roles.forEach(r-> {
-            if(r.getName().equals(RoleType.ROLE_ADMIN))
-                roleStr.add("Administrator");
-            else if(r.getName().equals(RoleType.ROLE_ANONYMOUS))
-                roleStr.add("Member");
-            else if(r.getName().equals(RoleType.ROLE_EMPLOYEE))
-                roleStr.add("Employee");
-            else
-                roleStr.add("Anonymous");
-
-        });
-        this.roles=roleStr;
-    }
 }

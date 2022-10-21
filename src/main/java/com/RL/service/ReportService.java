@@ -9,6 +9,7 @@ import com.RL.dto.UserDTO;
 import com.RL.dto.mapper.BookMapper;
 import com.RL.dto.mapper.UserMapper;
 import com.RL.dto.response.BookResponse;
+import com.RL.dto.response.RLResponse;
 import com.RL.dto.response.ReportResponse;
 import com.RL.repository.*;
 import lombok.AllArgsConstructor;
@@ -44,6 +45,7 @@ public class ReportService {
         ReportResponse report = new ReportResponse();
 
         LocalDateTime now = LocalDateTime.now();
+
         report.setBooks(bookRepository.count());
         report.setAuthors(authorRepository.count());
         report.setPublishers(publisherRepository.count());
@@ -58,13 +60,34 @@ public class ReportService {
     }
 
     public Page<BookResponse> findReportsWithPage(Pageable pageable) {
-        // Page<Book> books = bookRepository.findAll(pageable);
 
         Page<Book> books = bookRepository.findBookByLoanableIsFalse(pageable);
 
         Page<BookResponse>dtoPage =  books.map(book -> bookMapper.bookToBookResponse(book));
         return dtoPage;
     }
+
+    public List<BookResponse> findReportsWithPageExpiredBooks(Pageable pageable) {
+
+        LocalDateTime now = LocalDateTime.now();
+
+        List<Book> books= (loanRepository.findLoanByReturnDateIsNull().
+                stream().filter(t -> t.getExpireDate().isBefore(now)).map(t->t.getBookId()).
+                collect(Collectors.toList()));
+
+        List<BookResponse>dtoPage =  bookMapper.map(books);
+        return dtoPage;
+    }
+
+//    public Page<RLResponse> findReportMostBorrowers(Pageable pageable) {
+//
+//
+//        Page<Book> books = bookRepository.findBookByLoanableIsFalse(pageable);
+//
+//  //      Page<RLResponse>dtoPage =  books.map(book -> bookMapper.bookToBookResponse(book));
+//        return dtoPage;
+//    }
+
 
 
 }

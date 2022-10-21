@@ -1,7 +1,13 @@
 package com.RL.controller;
+import com.RL.domain.Author;
 import com.RL.domain.Category;
+import com.RL.dto.AuthorDTO;
+import com.RL.dto.CategoryDTO;
+import com.RL.service.AuthorService;
 import com.RL.service.CategoryService;
 import javax.validation.Valid;
+
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -10,68 +16,67 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
+import java.util.Map;
+
 @RestController
-@RequestMapping("/categories")
+@RequestMapping
+@AllArgsConstructor
 public class CategoryController {
 
-    @Autowired
-    private CategoryService categoryService;
+    private final CategoryService categoryService;
 
-    // Get Categories With Pages
-    @GetMapping()
-    public ResponseEntity<Page<Category>> getCategoryWithPage(
-            @RequestParam(required = false,value = "page", defaultValue = "0") int page,
-            @RequestParam(required = false,value = "size", defaultValue = "20") int size,
-            @RequestParam(required = false,value = "sort", defaultValue = "name") String prop,
-            @RequestParam(required = false,value = "direction", defaultValue = "ASC") Sort.Direction direction){
-
-        Pageable pageable = PageRequest.of(page,size,Sort.by(direction,prop));
-        Page<Category> catetegoryPage = categoryService.getAllWithPage(pageable);
-
-        return ResponseEntity.ok(catetegoryPage);
-    }
-
-    //Get Category With Id
-    @GetMapping("/{id}")
-    public ResponseEntity<Category> getCategory(@PathVariable Long id){
-        Category category =  categoryService.getCategory(id);
-
-        return new ResponseEntity<>(category,HttpStatus.OK);
-    }
-
-    //Create Category
+    @PostMapping("/categories")
     @PreAuthorize("hasRole('ADMIN')")
-    @PostMapping("/add")
-    public ResponseEntity<Category> createCategory(@Valid @RequestBody Category category){
-        categoryService.saveCategory(category);
+    public ResponseEntity<Map<String,String>> createCategory(@Valid @RequestBody CategoryDTO categoryDTO){
 
-        return new ResponseEntity<>(category,HttpStatus.CREATED);
+        Category newCategory  = categoryService.createCategory(categoryDTO);
+        Map<String,String> map=new HashMap<>();
+        map.put("id : ", newCategory.getId().toString());
+        map.put("name : ",newCategory.getName());
+        return new ResponseEntity<>(map,HttpStatus.CREATED);
     }
 
-    // Update Category
-    @PreAuthorize("hasRole('ADMIN')")
-    @PostMapping("/{id}")
-    public ResponseEntity<Category> updateCategory(@PathVariable Long id, @Valid @RequestBody Category category){
-        categoryService.updateCategory(id,category);
+    //   http://localhost:8080/categorys?size=10&page=0&sort=name&direction=ASC
+    @GetMapping("/categories")
+    public ResponseEntity<Page<CategoryDTO>> getAllUserByPage(@RequestParam("page") int page,
+                                                              @RequestParam("size") int size,
+                                                              @RequestParam("sort") String prop,
+                                                              @RequestParam("direction") Sort.Direction direction){
 
-        return new ResponseEntity<>(category,HttpStatus.OK);
+        Pageable pageable= PageRequest.of(page, size, Sort.by(direction,prop));
+        Page<CategoryDTO> userDTOPage=categoryService.getCategoryPage(pageable);
+        return ResponseEntity.ok(userDTOPage);
     }
 
-    //Delete Category
-    @PreAuthorize("hasRole('ADMIN')")
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Category> deleteCategory(@PathVariable Long id){
-        Category category =  categoryService.deleteCategory(id);
+    @GetMapping("/categories/{id}")
+    public ResponseEntity<Map<String,String>>  findById(@PathVariable("id") Long id){
+        CategoryDTO categoryDTO= categoryService.findById(id);
+        Map<String,String> map=new HashMap<>();
+        map.put("id : ", categoryDTO.getId().toString());
+        map.put("name : ",categoryDTO.getName());
+        return new ResponseEntity<>(map,HttpStatus.OK);
+    }
 
-        return new ResponseEntity<>(category,HttpStatus.OK);
+    @PutMapping("/categories/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<Map<String,String>> updateCategory(@PathVariable("id") Long id, @Valid @RequestBody Category category){
+        Category category1 = categoryService.updateCategory(id,category);
+        Map<String,String> map=new HashMap<>();
+        map.put("id : ", category1.getId().toString());
+        map.put("name : ",category1.getName());
+        return new ResponseEntity<>(map,HttpStatus.CREATED);
+    }
+    @DeleteMapping("/categories/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<Map<String,String>> deleteById(@PathVariable("id") Long id){
+        Category category= categoryService.deleteById(id);
+        Map<String,String> map=new HashMap<>();
+        map.put("id : ", category.getId().toString());
+        map.put("name : ",category.getName());
+        return new ResponseEntity<>(map,HttpStatus.CREATED);
     }
 
 }

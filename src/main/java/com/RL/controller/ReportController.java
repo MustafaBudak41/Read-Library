@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 
 @RestController
 @RequestMapping
@@ -27,22 +29,53 @@ public class ReportController {
 
     @GetMapping("/report")
     @PreAuthorize("hasRole('ADMIN') or hasRole('EMPLOYEE')")
-    public ResponseEntity<ReportResponse> getSomeStatistics( ){
+    public ResponseEntity<ReportResponse> getSomeStatistics() {
 
-        ReportResponse response= reportService.getReportAboutAllData();
+        ReportResponse response = reportService.getReportAboutAllData();
 
         return ResponseEntity.ok(response);
     }
+
     @GetMapping("/report/unreturned-books")
     @PreAuthorize("hasRole('ADMIN') or hasRole('EMPLOYEE')")
     public ResponseEntity<Page<BookResponse>> getReportsWithPage(@RequestParam("page") int page,
                                                                  @RequestParam("size") int size,
                                                                  @RequestParam("sort") String prop,
-                                                                 @RequestParam("type") Sort.Direction type){
+                                                                 @RequestParam("type") Sort.Direction type) {
 
-        Pageable pageable= PageRequest.of(page, size, Sort.by(type, prop));
-        Page<BookResponse> bookResponse=reportService.findReportsWithPage(pageable);
+        Pageable pageable = PageRequest.of(page, size, Sort.by(type, prop));
+        Page<BookResponse> bookResponse = reportService.findReportsWithPage(pageable);
         return ResponseEntity.ok(bookResponse);
 
     }
+    @GetMapping("/report/expired-books")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('EMPLOYEE')")
+    public ResponseEntity<List<BookResponse>> getReportsWithPageExpiredBooks(@RequestParam("page") int page,
+                                                                 @RequestParam("size") int size,
+                                                                 @RequestParam("sort") String prop,
+                                                                 @RequestParam("type") Sort.Direction type) {
+
+        Pageable pageable = PageRequest.of(page, size, Sort.by(type, prop));
+        List<BookResponse> bookResponse = reportService.findReportsWithPageExpiredBooks(pageable);
+        return ResponseEntity.ok(bookResponse);
+
+    }
+
+
+
+//    @GetMapping("/report/most-borrowers")
+//    @PreAuthorize("hasRole('ADMIN') or hasRole('EMPLOYEE')")
+//    public ResponseEntity<Page<RLResponse>> getReportMostBorrowers(@RequestParam(required = false,value = "page", defaultValue = "0") int page,
+//                                                                     @RequestParam(required = false,value = "size", defaultValue = "20") int size,
+//                                                                     @RequestParam(required = false,value = "sort", defaultValue = "name") String prop,
+//                                                                     @RequestParam(required = false,value = "type", defaultValue = "ASC") Sort.Direction type){
+//
+//
+//
+//
+//        Pageable pageable = PageRequest.of(page, size, Sort.by(type, prop));
+//        Page<RLResponse> bookResponse = reportService.findReportMostBorrowers(pageable);
+//        return ResponseEntity.ok(bookResponse);
+//
+//    }
 }

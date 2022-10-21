@@ -13,4 +13,5 @@ public interface BookRepository extends JpaRepository<Book, Long> {
 
    Page<Book> findBookByLoanableIsFalse(Pageable pageable);
 
+
 }
