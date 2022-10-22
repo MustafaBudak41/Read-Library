@@ -5,16 +5,22 @@ import com.RL.domain.Loan;
 import com.RL.domain.User;
 import com.RL.dto.BookDTO;
 import com.RL.dto.LoanDTO;
+import com.RL.dto.response.RLResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.List;
 
 @Repository
 public interface LoanRepository extends JpaRepository<Loan,Long> {
+
+    @PersistenceContext
+     EntityManager entityManager = null;
 
     //6.method
     @Query("SELECT l from Loan l " +
@@ -47,6 +53,17 @@ public interface LoanRepository extends JpaRepository<Loan,Long> {
     @Query(value = "SELECT l.bookId.id,l.bookId.name, l.bookId.isbn, count(l.id) as number from Loan l " +
             "group by l.bookId order by number desc limit ?amount", nativeQuery = true)
     Page<BookDTO> findMostPopularLimitByAmount( int amount, Pageable pageable);
+
+
+    @Query(value = "SELECT  u.first_name, l.user_id ,count(l.user_id) as number from tbl_loan l\n" +
+            "    inner join tbl_user u on l.user_id=u.id\n" +
+            "    group by l.user_id, u.first_name  order by number desc", nativeQuery = true)
+    Page findMostBorrowers(Pageable pageable);
+
+
+
+
+
 
 
     @Query("SELECT l from Loan l " +

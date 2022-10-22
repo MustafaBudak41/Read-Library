@@ -73,19 +73,15 @@ public class ReportController {
         return new ResponseEntity<>(mostPopularBooks, HttpStatus.OK);
     }
 
-//    @GetMapping("/report/most-borrowers")
-//    @PreAuthorize("hasRole('ADMIN') or hasRole('EMPLOYEE')")
-//    public ResponseEntity<Page<RLResponse>> getReportMostBorrowers(@RequestParam(required = false,value = "page", defaultValue = "0") int page,
-//                                                                     @RequestParam(required = false,value = "size", defaultValue = "20") int size,
-//                                                                     @RequestParam(required = false,value = "sort", defaultValue = "name") String prop,
-//                                                                     @RequestParam(required = false,value = "type", defaultValue = "ASC") Sort.Direction type){
-//
-//
-//
-//
-//        Pageable pageable = PageRequest.of(page, size, Sort.by(type, prop));
-//        Page<RLResponse> bookResponse = reportService.findReportMostBorrowers(pageable);
-//        return ResponseEntity.ok(bookResponse);
-//
-//    }
+    @GetMapping("/report/most-borrowers")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('EMPLOYEE')")
+    public ResponseEntity<Page> getReportMostBorrowers(@RequestParam(required = false,value = "page", defaultValue = "0") int page,
+                                                                     @RequestParam(required = false,value = "size", defaultValue = "20") int size ){
+
+        Pageable pageable = PageRequest.of(page, size);
+        Page bookResponse = reportService.findReportMostBorrowers(pageable);
+
+        return ResponseEntity.ok(bookResponse);
+
+    }
 }

@@ -88,14 +88,13 @@ public class ReportService {
     }
 
 
-//    public Page<RLResponse> findReportMostBorrowers(Pageable pageable) {
-//
-//
-//        Page<Book> books = bookRepository.findBookByLoanableIsFalse(pageable);
-//
-//  //      Page<RLResponse>dtoPage =  books.map(book -> bookMapper.bookToBookResponse(book));
-//        return dtoPage;
-//    }
+    public Page findReportMostBorrowers(Pageable pageable) {
+
+        Page mostBorrowers = loanRepository.findMostBorrowers(pageable);
+
+  //      Page<RLResponse>dtoPage =  books.map(book -> bookMapper.bookToBookResponse(book));
+        return mostBorrowers;
+    }
 
 
 
