@@ -2,6 +2,7 @@ package com.RL.domain;
 
 import com.RL.dto.response.RLResponse;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -66,11 +67,10 @@ public class User {
     @JoinTable(name = "tbl_user_role",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
-    @JsonIgnore
     private Set<Role> roles = new HashSet<>();
 
     @OneToMany(mappedBy = "userId")
-    @JsonIgnore
+    @JsonIgnoreProperties("userId")
     private List<Loan> loan;//new ArrayList<>();
 
 

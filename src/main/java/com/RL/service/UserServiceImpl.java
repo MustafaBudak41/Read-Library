@@ -109,6 +109,7 @@ public class UserServiceImpl implements IUserService {
         return user;
     }
 
+    @Transactional
     public Page<UserDTO> getUserLoanPage(Pageable pageable) {
         Page<User> users = userRepository.findAll(pageable);
         Page<UserDTO> dtoPage = users.map(user -> userMapper.userToUserDTO(user));
@@ -198,7 +199,7 @@ public class UserServiceImpl implements IUserService {
 
         if (user.getBuiltIn()) {
             throw new BadRequestException(ErrorMessage.NOT_PERMITTED_METHOD_MESSAGE);
-        }else{
+        } else {
             Role role = roleRepository.findByName(RoleType.ROLE_MEMBER).
                     orElseThrow(() -> new ResourceNotFoundException(
                             String.format(ErrorMessage.ROLE_NOT_FOUND_MESSAGE,

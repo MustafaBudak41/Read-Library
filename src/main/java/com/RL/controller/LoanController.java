@@ -1,11 +1,13 @@
 package com.RL.controller;
 
 
-import com.RL.domain.Book;
+
 import com.RL.domain.Loan;
-import com.RL.domain.User;
+
 import com.RL.dto.LoanDTO;
-import com.RL.dto.request.CreateLoanDTO;
+
+import com.RL.dto.request.UpdateLoanDTO;
+import com.RL.dto.response.LoanResponse;
 import com.RL.service.LoanService;
 import com.RL.service.UserServiceImpl;
 import lombok.AllArgsConstructor;
@@ -34,15 +36,13 @@ public class LoanController {
 
     @PreAuthorize("hasRole('ADMIN') or hasRole('EMPLOYEE')")
     @PostMapping("/loans")
-    public ResponseEntity<Map<String, Boolean>> createLoan(@Valid @RequestBody CreateLoanDTO createLoanDTO){
+    public ResponseEntity <LoanResponse> createLoan(@RequestParam(value = "bookId") Long bookId,
+                                                    @RequestParam(value = "userId") Long userId,
+                                                    @RequestParam(value = "notes") String notes
+    ){
 
-
-        loanService.createLoan(createLoanDTO);
-
-        Map<String, Boolean> map = new HashMap<>();
-        map.put("Loan created", true);
-        return new ResponseEntity<>(map, HttpStatus.CREATED);
-
+        LoanResponse loansResponse= loanService.createLoan(bookId,userId,notes);
+        return new ResponseEntity<>(loansResponse,HttpStatus.CREATED);
     }
     // 3. method
     @PreAuthorize("hasRole('ADMIN') or hasRole('EMPLOYEE')")
@@ -82,15 +82,12 @@ public class LoanController {
 
     }
     //7.method
-    @PreAuthorize("hasRole('ADMIN') or hasRole('EMPLOYEE')")
     @PutMapping("/loans/{id}")
-    public ResponseEntity<Map<String, Boolean>> updateLoan(@RequestParam(value = "loanId") Long loanId,
-                                                           @Valid @RequestBody
-                                                                   LocalDateTime expireDate,
-                                                           @Valid @RequestBody
-                                                                   LocalDateTime returnDate,
-                                                           @Valid @RequestBody String notes) throws Exception {
-        loanService.updateLoan(loanId, expireDate, returnDate, notes);
+    @PreAuthorize("hasRole('ADMIN') or  hasRole('EMPLOYEE')")
+    public ResponseEntity<Map<String, Boolean>> updateLoan(@PathVariable(value = "id") Long loanId,
+                                                           @Valid @RequestBody UpdateLoanDTO updateLoanDTO
+    ) throws Exception {
+        loanService.updateLoan(loanId, updateLoanDTO);
         Map<String, Boolean> map = new HashMap<>();
         map.put("success", true);
         return new ResponseEntity<>(map, HttpStatus.OK);

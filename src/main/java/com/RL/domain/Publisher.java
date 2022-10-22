@@ -1,6 +1,7 @@
 package com.RL.domain;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -33,6 +34,7 @@ public class Publisher {
     private Boolean builtIn=false;
 
     @OneToMany(mappedBy="publisherId")
+    @JsonIgnoreProperties("publisherId")
     private List<Book> books;
 
 

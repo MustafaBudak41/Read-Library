@@ -1,8 +1,7 @@
 package com.RL.domain;
 
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,7 +10,6 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 @Getter
@@ -26,17 +24,17 @@ public class Loan {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @JsonFormat(shape= JsonFormat.Shape.STRING, pattern = "MM/dd/yyyy HH:mm:ss", timezone = "Turkey")
-    @NotNull(message="Please provide load date")
+//    @JsonFormat(shape= JsonFormat.Shape.STRING, pattern = "MM/dd/yyyy HH:mm:ss", timezone = "Turkey")
+//    @NotNull(message="Please provide load date")
     @Column(nullable = false)
     private LocalDateTime loanDate;
 
-    @JsonFormat(shape= JsonFormat.Shape.STRING, pattern = "MM/dd/yyyy HH:mm:ss", timezone = "Turkey")
-    @NotNull(message="Please provide expire date")
+//    @JsonFormat(shape= JsonFormat.Shape.STRING, pattern = "MM/dd/yyyy HH:mm:ss", timezone = "Turkey")
+//    @NotNull(message="Please provide expire date")
     @Column(nullable = false)
     private LocalDateTime expireDate;
 
-    @JsonFormat(shape= JsonFormat.Shape.STRING, pattern = "MM/dd/yyyy HH:mm:ss", timezone = "Turkey")
+    //@JsonFormat(shape= JsonFormat.Shape.STRING, pattern = "MM/dd/yyyy HH:mm:ss", timezone = "Turkey")
     private LocalDateTime returnDate;
 
     @Column(length = 300)
@@ -44,11 +42,12 @@ public class Loan {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
-    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnoreProperties("loan")
     private User userId;
 
     @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     @JoinColumn(name = "book_id", nullable = false)
+    @JsonIgnoreProperties("loansList")
     private Book bookId;
 
 

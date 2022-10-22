@@ -6,6 +6,7 @@ public class ErrorMessage {
     public final static String RESOURCE_NOT_FOUND_MESSAGE="Resource with id %d not found";
     public final static String BOOK_NOT_FOUND_MESSAGE="Book with id %d not found";
     public final static String BOOK_NOT_AVAILABLE_MESSAGE="Book with id %d cant loanable";
+    public final static String LOAN_NOT_FOUND_MSG="Loan with id %d not found";
 
     public final static String AUTHOR_NOT_FOUND_MESSAGE="Author with id %d not found";
 

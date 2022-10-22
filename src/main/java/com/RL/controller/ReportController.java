@@ -61,17 +61,7 @@ public class ReportController {
 
     }
 
-    @GetMapping("/report/most-popular-books/{amount}")
-    public ResponseEntity<Page<BookDTO>> findMostPopularBooks(@PathVariable int amount,
-                                                              @RequestParam(value = "page") int page,
-                                                              @RequestParam(value = "size") int size) {
 
-
-        Pageable pageable = PageRequest.of(page, size);
-        Page<BookDTO> mostPopularBooks = reportService.findMostPopularBooks(amount, pageable);
-
-        return new ResponseEntity<>(mostPopularBooks, HttpStatus.OK);
-    }
 
     @GetMapping("/report/most-borrowers")
     @PreAuthorize("hasRole('ADMIN') or hasRole('EMPLOYEE')")
@@ -80,6 +70,19 @@ public class ReportController {
 
         Pageable pageable = PageRequest.of(page, size);
         Page bookResponse = reportService.findReportMostBorrowers(pageable);
+
+        return ResponseEntity.ok(bookResponse);
+
+    }
+
+    @GetMapping("/report/most-popular-books")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('EMPLOYEE')")
+    public ResponseEntity <List<Object>> getReportMostPopularBooks(@RequestParam(required = false,value = "amount", defaultValue = "10") int amount,
+                                                         @RequestParam(required = false,value = "page", defaultValue = "0") int page,
+                                                        @RequestParam(required = false,value = "size", defaultValue = "20") int size ){
+
+        Pageable pageable = PageRequest.of(page, size);
+      List<Object> bookResponse = reportService.findReportMostPopularBooks(amount,pageable);
 
         return ResponseEntity.ok(bookResponse);
 

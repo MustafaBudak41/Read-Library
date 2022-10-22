@@ -3,29 +3,23 @@ package com.RL.repository;
 import com.RL.domain.Book;
 import com.RL.domain.Loan;
 import com.RL.domain.User;
-import com.RL.dto.BookDTO;
+
 import com.RL.dto.LoanDTO;
-import com.RL.dto.response.RLResponse;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
-
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
 public interface LoanRepository extends JpaRepository<Loan,Long> {
 
-    @PersistenceContext
-     EntityManager entityManager = null;
-
-    //6.method
     @Query("SELECT l from Loan l " +
-            "where l.expireDate<current_date and  l.returnDate is null and l.userId=?1")
-    List<Loan>findExpiredLoansBy(Long userId);
+            "where l.expireDate<?2 and  l.returnDate is null and l.userId.id=?1")
+    List<Loan>findExpiredLoansBy(Long userId, LocalDateTime current);
 
     //4.method
     Page<LoanDTO> findAllByBookId(Book bookId,Pageable pageable);
@@ -50,10 +44,6 @@ public interface LoanRepository extends JpaRepository<Loan,Long> {
     // yahya beyden gelen
     boolean existsByBookId(Book book);
 
-    @Query(value = "SELECT l.bookId.id,l.bookId.name, l.bookId.isbn, count(l.id) as number from Loan l " +
-            "group by l.bookId order by number desc limit ?amount", nativeQuery = true)
-    Page<BookDTO> findMostPopularLimitByAmount( int amount, Pageable pageable);
-
 
     @Query(value = "SELECT  u.first_name, l.user_id ,count(l.user_id) as number from tbl_loan l\n" +
             "    inner join tbl_user u on l.user_id=u.id\n" +
@@ -62,13 +52,13 @@ public interface LoanRepository extends JpaRepository<Loan,Long> {
 
 
 
+    @Query(value = "SELECT  u.name, u.id, u.isbn  from tbl_loan l \n" +
+            "inner join tbl_book u on l.book_id=u.id\n" +
+            "group by l.book_id, u.name,u.id, u.isbn  order by  count(l.book_id) desc", nativeQuery = true)
+    Page findMostPopularBooks(Pageable pageable);
 
 
-
-
-    @Query("SELECT l from Loan l " +
-            "where l.returnDate is null and l.userId=?1")
-    List<Loan> findActiveLoansOfUser(Long userId);
+    List<Loan>findLoansByUserIdAndExpireDateIsNull(User userId);
 
     List<Loan> findLoanByReturnDateIsNull();
 

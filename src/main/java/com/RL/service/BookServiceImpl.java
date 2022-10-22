@@ -103,6 +103,8 @@ public class BookServiceImpl implements IBookService {
         book.setCategoryId(category);
         book.setPublisherId(publisher);
 
+
+
         return book;
     }
 

@@ -5,6 +5,7 @@ import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -64,18 +65,21 @@ public class Book {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "author_id", nullable = false)
+    @JsonIgnoreProperties("books")
     private Author authorId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "publisher_id", nullable = false)
+    @JsonIgnoreProperties("books")
     private Publisher publisherId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id", nullable = false)
+    @JsonIgnoreProperties("books")
     private Category categoryId;
 
     @OneToMany(mappedBy = "bookId")
-    @JsonIgnore
+    @JsonIgnoreProperties("bookId")
     private List<Loan> loansList;
 
 

@@ -19,6 +19,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -79,23 +81,29 @@ public class ReportService {
         List<BookResponse>dtoPage =  bookMapper.map(books);
         return dtoPage;
     }
-// Report MostpopularBook Method
 
-    public Page<BookDTO> findMostPopularBooks(int amount, Pageable pageable) {
+    @PersistenceContext
+    private EntityManager entityManager ;
 
-        return loanRepository.findMostPopularLimitByAmount(amount,pageable);
+//    @Override
+//    public List<Passenger> findOrderedBySeatNumberLimitedTo(int limit) {
+//        return entityManager.createQuery("SELECT p FROM Passenger p ORDER BY p.seatNumber",
+//                Passenger.class).setMaxResults(limit).getResultList();
+//    }
+
+
+    public List<Object> findReportMostPopularBooks(int amount, Pageable pageable) {
+
+        Page<Object> mostPopularBooks = loanRepository.findMostPopularBooks(pageable);
+        return         mostPopularBooks.stream().limit(amount).collect(Collectors.toList());
 
     }
-
 
     public Page findReportMostBorrowers(Pageable pageable) {
 
         Page mostBorrowers = loanRepository.findMostBorrowers(pageable);
 
-  //      Page<RLResponse>dtoPage =  books.map(book -> bookMapper.bookToBookResponse(book));
         return mostBorrowers;
     }
-
-
 
 }

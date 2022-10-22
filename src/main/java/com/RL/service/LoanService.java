@@ -4,10 +4,9 @@ package com.RL.service;
 import com.RL.domain.Book;
 import com.RL.domain.Loan;
 import com.RL.domain.User;
-import com.RL.dto.BookDTO;
 import com.RL.dto.LoanDTO;
-import com.RL.dto.mapper.LoanMapper;
-import com.RL.dto.request.CreateLoanDTO;
+import com.RL.dto.request.UpdateLoanDTO;
+import com.RL.dto.response.LoanResponse;
 import com.RL.exception.BadRequestException;
 import com.RL.exception.ResourceNotFoundException;
 import com.RL.repository.BookRepository;
@@ -22,10 +21,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Stream;
 
-import static com.RL.exception.message.ErrorMessage.BOOK_NOT_FOUND_MESSAGE;
-import static com.RL.exception.message.ErrorMessage.USER_NOT_FOUND_MESSAGE;
+import static com.RL.exception.message.ErrorMessage.*;
 
 
 @Service
@@ -34,93 +31,74 @@ public class LoanService {
 
     private final LoanRepository loanRepository;
 
-    private LoanMapper loanMapper;
-
     private final BookRepository bookRepository;
 
     private final UserRepository userRepository;
 
-    public final static String LOAN_NOT_FOUND_MSG="Loan with id %d not found";
+    public LoanResponse createLoan(long bookId, Long userId, String notes) {
+
+        User user=userRepository.findById(userId).orElseThrow(()-> new ResourceNotFoundException(String.format(USER_NOT_FOUND_MESSAGE,userId)));
+        Book book=bookRepository.findById(bookId).orElseThrow(()-> new ResourceNotFoundException(String.format(BOOK_NOT_FOUND_MESSAGE,bookId)));
+
+        LocalDateTime current=LocalDateTime.now();
+        List<Loan> expiredLoans=loanRepository.findExpiredLoansBy(userId,current);
+        List<Loan> activeLoansOfUser = loanRepository.findLoansByUserIdAndExpireDateIsNull(user);
+
+        if(!book.isLoanable()) throw new BadRequestException("book is not loanable");
+
+        if(expiredLoans.size()>0) throw new IllegalStateException("You do not have a permission to loan");
+
+        Loan loan=new Loan();
 
 
-
-    public boolean createLoan(CreateLoanDTO createLoanDTO) throws BadRequestException {
-
-        //  1) IF USER NOT EXİST THROW EXCEPTION AND FINISH.
-        User user=userRepository.findById(createLoanDTO.getUserId()).orElseThrow(()->
-
-                new ResourceNotFoundException(String.format(USER_NOT_FOUND_MESSAGE,  createLoanDTO.getUserId())));
-        Book book=bookRepository.findById(createLoanDTO.getUserId()).orElseThrow(()->
-
-                new ResourceNotFoundException(String.format(BOOK_NOT_FOUND_MESSAGE,  createLoanDTO.getBookId())));
-
-        //  2) GET THE SPECIFIC USER'S EXPIRED LOANS
-        List<Loan> expiredLoans=loanRepository.findExpiredLoansBy(createLoanDTO.getUserId());
-        //  3) GET THE SPECIFIC USER'S ACTIVE LOANS NOT THE RETURNED LOANS (SO THE NUMBER OF THE BOOK THAT THE USER HAVE CURRENTLY)
-        List<Loan> activeLoansOfUser = loanRepository.findActiveLoansOfUser(createLoanDTO.getUserId());
-
-        //  4) IF THE USER HAVE AN UNRETURNED BOOK THEN THROW EXCEPTION AND FINISH.
-        if(expiredLoans.size()>0)
-
-            throw new IllegalStateException("You do not have a permission to loan books because you have an unreturned book");
-
-        //  5) IF THE BOOK IS NOT AVAILABLE THROW EXCEPTION AND FINISH
-        if(!book.isLoanable()) {
-            return book.isLoanable();
-        }
-        //  6) WHEN WE PASSED THE CONDITIONS ABOVE WE WILL CREATE A LOAN
-      //  Loan loan = new Loan();
-        Loan loan = loanMapper.createLoanDTOToLoan(createLoanDTO);
-
-        //  7) AND WE WILL CREATE A LOAN DATE
-        LocalDateTime loanDate = LocalDateTime.now();
-
-        //  8) WE CHECKED THE USER SCORE HERE AND SET FOR HOW MANY DAYS HE/SHE CAN BORROW A BOOK
         switch (user.getScore()) {
-            case 2:// if user's score is 2 and if he currently have books less than 5 he/she can borrow a new book for 20 days
-                if (activeLoansOfUser.size() < 5) {
-                    loan.setLoanDate(loanDate);
-                    loan.setExpireDate(loanDate.plusDays(20));
-                }
+            case 2:
+                loan.setLoanDate(current);
+                loan.setExpireDate(current.plusDays(20));
+
                 break;
             case 1:
                 if (activeLoansOfUser.size() < 4) {
-                    loan.setLoanDate(loanDate);
-                    loan.setExpireDate(loanDate.plusDays(15));
+                    loan.setLoanDate(current);
+                    loan.setExpireDate(current.plusDays(15));
                 }
                 break;
             case 0:
                 if (activeLoansOfUser.size() < 3) {
-                    loan.setLoanDate(loanDate);
-                    loan.setExpireDate(loanDate.plusDays(10));
+                    loan.setLoanDate(current);
+                    loan.setExpireDate(current.plusDays(10));
                 }
                 break;
             case -1:
                 if (activeLoansOfUser.size() < 2) {
-                    loan.setLoanDate(loanDate);
-                    loan.setExpireDate(loanDate.plusDays(6));
+                    loan.setLoanDate(current);
+                    loan.setExpireDate(current.plusDays(6));
                 }
                 break;
             case -2:
                 if (activeLoansOfUser.size() < 1) {
-                    loan.setLoanDate(loanDate);
-                    loan.setExpireDate(loanDate.plusDays(3));
+                    loan.setLoanDate(current);
+                    loan.setExpireDate(current.plusDays(3));
                 }
-                break;
-            default:
-                throw new BadRequestException("The user score is not between -2 and +2, " +
-                        "(from createLoan Method in the LoanService)");
+                break; default: throw new BadRequestException("The user score is not between -2 and +2, " +
+                    "(from createLoan Method in the LoanService)");
+
         }
 
-        //  9) WE CONTINUED TO SET THE LOAN'S FIELDS
-        loan.setUserId(user);
+
         loan.setBookId(book);
-        loan.setNotes(createLoanDTO.getNotes());
-        //  10) AND WE SET THE BOOK IS NOT AVAILABLE FROM NOW ON;
-        book.setLoanable(false);
-        //  11) FINALLY WE SAVED THE LOAN TO THE DATABASE
+        loan.setUserId(user);
+        loan.setNotes(notes);
         loanRepository.save(loan);
-        return book.isLoanable();
+        book.setLoanable(false);
+        bookRepository.save(book);
+        LoanResponse loanResponse=new LoanResponse();
+        loanResponse.setId(loan.getId());
+        loanResponse.setUserId(loan.getUserId().getId());
+        loanResponse.setBookId(loan.getBookId());
+        return loanResponse;
+
+
     }
 
 
@@ -132,7 +110,6 @@ public class LoanService {
         return loanRepository.findAllByUserId(userId,pageable);
 
     }
-
 
     //4. method
     public Page<LoanDTO> getLoanedBookByBookId(Long bookId,Pageable pageable) {
@@ -156,27 +133,29 @@ public class LoanService {
         }
     }
 
-    //7.method
-    public void updateLoan(Long loanId, LocalDateTime expireDate, LocalDateTime returnDate, String notes) throws BadRequestException {
+    public void updateLoan(Long loanId, UpdateLoanDTO updateLoanDTO) throws BadRequestException {
         Loan loan = loanRepository.findById(loanId).orElseThrow(()->
                 new ResourceNotFoundException(String.format(LOAN_NOT_FOUND_MSG, loanId)));
 
         User user = loan.getUserId();
-
         Book book = loan.getBookId();
 
-
-        if(returnDate!=null){
+        if(updateLoanDTO.getReturnDate()!=null){
             book.setLoanable(true);
-            loan.setReturnDate(returnDate);
-            if(returnDate.isEqual(loan.getReturnDate()) || returnDate.isBefore(loan.getReturnDate())){
+            loan.setReturnDate(updateLoanDTO.getReturnDate());
+            loanRepository.save(loan);
+            bookRepository.save(book);
+            if(updateLoanDTO.getReturnDate().isEqual(loan.getReturnDate()) || updateLoanDTO.getReturnDate().isBefore(loan.getReturnDate())){
                 user.setScore(user.getScore()+1);
+                userRepository.save(user);
             }else{
                 user.setScore(user.getScore()-1);
+                userRepository.save(user);
             }
         }else{
-            loan.setExpireDate(expireDate);
-            loan.setNotes(notes);
+            loan.setExpireDate(updateLoanDTO.getExpireDate());
+            loan.setNotes(updateLoanDTO.getNotes());
+            loanRepository.save(loan);
         }
 
         userRepository.save(user);
@@ -185,6 +164,7 @@ public class LoanService {
 
 
     }
+
 
     //1.method
     @Transactional(readOnly=true)
