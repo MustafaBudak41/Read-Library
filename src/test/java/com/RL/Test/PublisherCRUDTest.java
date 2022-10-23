@@ -1,8 +1,7 @@
 package com.RL.Test;
 
-import com.RL.domain.*;
-import com.RL.repository.*;
-
+import com.RL.domain.Publisher;
+import com.RL.repository.PublisherRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -10,15 +9,14 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.util.List;
 
 @SpringBootTest
-class AuthorCRUDTest {
+class PublisherCRUDTest {
     @Autowired
-    private AuthorRepository repository;
+    private PublisherRepository repository;
     String name = "Zekeriya Kaya test0111";
 
-
     @Test
-    public void authorCreateTest() {
-        Author author = new Author();
+    public void publisherCreateTest() {
+        Publisher author = new Publisher();
         author.setName(name);
         author.setBuiltIn(false);
         repository.save(author);
@@ -26,8 +24,8 @@ class AuthorCRUDTest {
     }
 
     @Test
-    public void authorUpdateTest() {
-        List<Author> objs = repository.findAll();
+    public void publisherUpdateTest() {
+        List<Publisher> objs = repository.findAll();
         for (var each : objs) {
             if (each.getName().equals(name)) {
                 each.setName(name + " Update");
@@ -37,13 +35,14 @@ class AuthorCRUDTest {
     }
 
     @Test
-    public void authorDeleteTest() {
-        var objs= repository.findAll();
+    public void publisherDeleteTest() {
+        List<Publisher> objs = repository.findAll();
         for (var each : objs) {
             if (each.getName().equals(name + " Update") || each.getName().equals(name)) {
                 repository.deleteById(each.getId());
             }
         }
     }
+
 
 }

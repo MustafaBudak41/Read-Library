@@ -1,33 +1,25 @@
 package com.RL.Test;
-
 import com.RL.domain.*;
 import com.RL.repository.*;
-
+import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
-import java.util.List;
-
 @SpringBootTest
-class AuthorCRUDTest {
+class CategoryCRUDTest {
     @Autowired
-    private AuthorRepository repository;
+    private CategoryRepository repository;
     String name = "Zekeriya Kaya test0111";
-
-
     @Test
-    public void authorCreateTest() {
-        Author author = new Author();
-        author.setName(name);
-        author.setBuiltIn(false);
-        repository.save(author);
-
+    public void CategoryCreateTest() {
+        Category Category = new Category();
+        Category.setName(name);
+        Category.setBuiltIn(false);
+        repository.save(Category);
     }
-
     @Test
-    public void authorUpdateTest() {
-        List<Author> objs = repository.findAll();
+    public void CategoryUpdateTest() {
+        List<Category> objs = repository.findAll();
         for (var each : objs) {
             if (each.getName().equals(name)) {
                 each.setName(name + " Update");
@@ -35,15 +27,13 @@ class AuthorCRUDTest {
             }
         }
     }
-
     @Test
-    public void authorDeleteTest() {
-        var objs= repository.findAll();
+    public void CategoryDeleteTest() {
+        List<Category> objs = repository.findAll();
         for (var each : objs) {
             if (each.getName().equals(name + " Update") || each.getName().equals(name)) {
                 repository.deleteById(each.getId());
             }
         }
     }
-
 }
