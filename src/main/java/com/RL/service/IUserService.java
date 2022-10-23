@@ -22,11 +22,10 @@ public interface IUserService {
     User register(RegisterRequest registerRequest);
     User updateUserByAdmin(Long id, UpdateRequest updateRequest);
     User memberUserUpdate(Long id, UpdateRequest updateRequest);
-  //  User adminAndEmployeeCanUpdate(Long id, HttpServletRequest request, UpdateRequest updateRequest);
     UserDTO deleteUser(Long id);
     UserDTO findById(Long id);
     Page<UserDTO> getUserLoanPage(Pageable pageable);
-    Page<RLResponse> getUsersPage(Pageable pageable);
+    Page<RLResponse> getUsersPage(String name,Pageable pageable);
 
 
 

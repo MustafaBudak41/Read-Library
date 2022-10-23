@@ -6,6 +6,7 @@ import com.RL.domain.User;
 
 import com.RL.dto.LoanDTO;
 
+import com.RL.dto.response.LoanResponseBookUser;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -22,12 +23,12 @@ public interface LoanRepository extends JpaRepository<Loan,Long> {
     List<Loan>findExpiredLoansBy(Long userId, LocalDateTime current);
 
     //4.method
-    Page<LoanDTO> findAllByBookId(Book bookId,Pageable pageable);
+    List<Loan> findAllByBookId(Book bookId,Pageable pageable);
 
     // 1. method
     @Query("SELECT l from Loan l " +
             "where l.userId.id=?1")
-    Page<LoanDTO> findAllWithPageByUserId(Long userId, Pageable pageable);
+    List<Loan> findAllWithPageByUserId(Long userId, Pageable pageable);
 
     //2.method
     @Query("SELECT l from Loan l WHERE l.id = ?1 and l.userId.id = ?2")
@@ -62,9 +63,8 @@ public interface LoanRepository extends JpaRepository<Loan,Long> {
 
     List<Loan> findLoanByReturnDateIsNull();
 
-    List<Loan> findAllByUserId(User userId);
-
-    List<Loan> findAllByBookId(Book bookId);
+    @Query("SELECT new com.RL.dto.response.LoanResponseBookUser(l) from Loan l where l.userId.id=?1 ")
+    List<LoanResponseBookUser> findAllLoanByUser(Long userId, Pageable pageable);
 
 
 }

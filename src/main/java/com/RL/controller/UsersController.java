@@ -42,12 +42,13 @@ public class UsersController {
     }
     @GetMapping("/users")
     @PreAuthorize("hasRole('ADMIN') or  hasRole('EMPLOYEE')")
-    public ResponseEntity<Page<RLResponse>> getAllUsersByPage(@RequestParam("page") int page,
-                                                              @RequestParam("size") int size,
-                                                              @RequestParam("sort") String prop,
-                                                              @RequestParam("type") Direction type){
+    public ResponseEntity<Page> getAllUsersByPage(@RequestParam(required = false ,value="name") String name,
+                                                              @RequestParam(required = false ,value="page") int page,
+                                                              @RequestParam(required = false ,value="size") int size,
+                                                              @RequestParam(required = false ,value="sort") String prop,
+                                                              @RequestParam(required = false ,value="type") Direction type){
         Pageable pageable= PageRequest.of(page, size, Sort.by(type, prop));
-        Page<RLResponse> userDTOPage=userService.getUsersPage(pageable);
+        Page userDTOPage=userService.getUsersPage(name,pageable);
 
         return ResponseEntity.ok(userDTOPage);
     }

@@ -1,9 +1,11 @@
 package com.RL.repository;
 
 import com.RL.domain.User;
+import com.RL.domain.enums.RoleType;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.sql.Date;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -17,7 +19,7 @@ public class UserRepositoryTest {
 
         @Autowired
     UserRepository userRepository;
-  //  @Test
+   // @Test
 
     public void saveUserTest(){
         List<User> userList=new ArrayList<>();
@@ -28,9 +30,9 @@ public class UserRepositoryTest {
         user.setLastName("nice");
         user.setScore(0);
         user.setAddress("www. street");
-        user.setPhone("555-555-5555");
-        user.setBirthDate(Calendar.getInstance().getTime());
-        user.setEmail("mm@mail.com");
+        user.setPhone("(541) 317-8828");
+        user.setBirthDate(Date.valueOf("1990-10-25"));
+        user.setEmail("maaam@mail.com");
         user.setPassword("1211ad13da");
         user.setCreateDate(LocalDateTime.now());
         user.setResetPasswordCode("dadad5454");
@@ -44,9 +46,9 @@ public class UserRepositoryTest {
 //        when(userRepository.saveUser(user)).thenReturn(userList);
         verify(userRepository,times(1)).save(user);
 
-        //userRepository.saveUser(user);
+        userRepository.save(user);
 
-        //verify(userRepository).saveUser(user);
+        verify(userRepository).save(user);
 
        // assertEquals("victor",  userRepository.findAll().get(0).getFirstName());
       //  assertEquals("victor",  user.getFirstName());

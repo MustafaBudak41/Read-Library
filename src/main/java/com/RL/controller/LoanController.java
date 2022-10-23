@@ -8,6 +8,8 @@ import com.RL.dto.LoanDTO;
 
 import com.RL.dto.request.UpdateLoanDTO;
 import com.RL.dto.response.LoanResponse;
+import com.RL.dto.response.LoanResponseBookUser;
+import com.RL.dto.response.LoanUpdateResponse;
 import com.RL.service.LoanService;
 import com.RL.service.UserServiceImpl;
 import lombok.AllArgsConstructor;
@@ -47,13 +49,15 @@ public class LoanController {
     // 3. method
     @PreAuthorize("hasRole('ADMIN') or hasRole('EMPLOYEE')")
     @GetMapping("/loans/user/{userId}")
-    public ResponseEntity<Page<LoanDTO>> findAllLoansByUserId( @PathVariable Long userId,
-                                                               @RequestParam ("page") int page,
-                                                               @RequestParam("size") int size,
-                                                               @RequestParam("loanDate") LocalDateTime loanDate){
-        Pageable pageable= PageRequest.of(page,size, Sort.by(String.valueOf(loanDate)).descending());
+    public ResponseEntity<List<LoanResponseBookUser>> findAllLoansByUserId(@PathVariable Long userId,
+                                                                           @RequestParam ("page") int page,
+                                                                           @RequestParam("size") int size,
+                                                                           @RequestParam("sort") String prop,
+                                                                           @RequestParam("direction") Sort.Direction direction){
+        Pageable pageable= PageRequest.of(page, size, Sort.by(direction,prop));
+        // Pageable pageable=PageRequest.of(page, size);
 
-        Page<LoanDTO> loans = loanService.findAllLoansByUserId(userId,pageable);
+        List<LoanResponseBookUser> loans = loanService.findAllLoansByUserId(userId,pageable);
         return new ResponseEntity<>(loans, HttpStatus.OK);
 
     }
@@ -61,13 +65,14 @@ public class LoanController {
     //4. method
     @PreAuthorize("hasRole('ADMIN') or hasRole('EMPLOYEE')")
     @GetMapping("/loans/book/{bookId}")
-    public ResponseEntity<Page<LoanDTO>> findLoanedBookByBookId(@PathVariable Long bookId,
-                                                                @RequestParam ("page") int page,
-                                                                @RequestParam("size") int size,
-                                                                @RequestParam("loanDate") LocalDateTime loanDate) {
+    public ResponseEntity<List<Loan>> findLoanedBookByBookId(@PathVariable Long bookId,
+                                                             @RequestParam ("page") int page,
+                                                             @RequestParam("size") int size,
+                                                             @RequestParam("sort") String prop,
+                                                             @RequestParam("direction") Sort.Direction direction){
 
-        Pageable pageable= PageRequest.of(page,size, Sort.by(String.valueOf(loanDate)).descending());
-        Page<LoanDTO> loans = loanService.getLoanedBookByBookId(bookId,pageable);
+        Pageable pageable= PageRequest.of(page, size, Sort.by(direction,prop));
+        List<Loan> loans = loanService.getLoanedBookByBookId(bookId,pageable);
 
         return new ResponseEntity<>(loans,HttpStatus.OK);
 
@@ -84,27 +89,26 @@ public class LoanController {
     //7.method
     @PutMapping("/loans/{id}")
     @PreAuthorize("hasRole('ADMIN') or  hasRole('EMPLOYEE')")
-    public ResponseEntity<Map<String, Boolean>> updateLoan(@PathVariable(value = "id") Long loanId,
-                                                           @Valid @RequestBody UpdateLoanDTO updateLoanDTO
-    ) throws Exception {
-        loanService.updateLoan(loanId, updateLoanDTO);
-        Map<String, Boolean> map = new HashMap<>();
-        map.put("success", true);
-        return new ResponseEntity<>(map, HttpStatus.OK);
+    public ResponseEntity<LoanUpdateResponse> updateLoan(@PathVariable(value = "id") Long loanId,
+                                                         @Valid @RequestBody UpdateLoanDTO updateLoanDTO
+    ) {
+        LoanUpdateResponse updatedLoanResponse =loanService.updateLoan(loanId, updateLoanDTO);
+        return new ResponseEntity<>(updatedLoanResponse, HttpStatus.OK);
     }
 
     //1. method
     @PreAuthorize("hasRole('MEMBER')")
     @GetMapping("/loans")
-    public ResponseEntity<Page<LoanDTO>>getLoansWithPageByUserId(HttpServletRequest request,
-                                                                 @RequestParam ("page") int page,
-                                                                 @RequestParam("size") int size,
-                                                                 @RequestParam("loanDate") LocalDateTime loanDate){
+    public ResponseEntity<List<Loan>>getLoansWithPageByUserId(HttpServletRequest request,
+                                                              @RequestParam ("page") int page,
+                                                              @RequestParam("size") int size,
+                                                              @RequestParam("sort") String prop,
+                                                              @RequestParam("direction") Sort.Direction direction){
 
         Long userId=(Long)request.getAttribute("id");
 
-        Pageable pageable= PageRequest.of(page,size, Sort.by(String.valueOf(loanDate)).descending());
-        Page<LoanDTO>loans=loanService.findLoansWithPageByUserId(userId,pageable);
+        Pageable pageable= PageRequest.of(page, size, Sort.by(direction,prop));
+        List<Loan>loans=loanService.findLoansWithPageByUserId(userId,pageable);
         return new ResponseEntity<>(loans,HttpStatus.OK);
 
     }

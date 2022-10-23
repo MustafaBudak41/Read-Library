@@ -15,7 +15,6 @@ public interface BookRepository extends JpaRepository<Book, Long> {
 
    Page<Book> findBookByLoanableIsFalse(Pageable pageable);
 
-   @Query("select new com.RL.dto.response.BookResponse(book) from Book book")
-   Page<BookResponse> findAllBookWithPage(Pageable pageable);
+
 
 }

@@ -117,11 +117,14 @@ public class UserServiceImpl implements IUserService {
         return dtoPage;
     }
 
-    public Page<RLResponse> getUsersPage(Pageable pageable) {
-        Page<User> users = userRepository.findAll(pageable);
-        Page<RLResponse> dtoPage = users.map(user -> userMapper.userToRLResponse(user));
-
-        return dtoPage;
+    public Page getUsersPage(String name ,Pageable pageable) {
+        if (name!=null){
+                return userRepository.findUsersWithQuery(name, pageable);
+        }else {
+            Page<User> users = userRepository.findAll(pageable);
+            Page dtoPage = users.map(user -> userMapper.userToRLResponse(user));
+            return dtoPage;
+        }
 
     }
 

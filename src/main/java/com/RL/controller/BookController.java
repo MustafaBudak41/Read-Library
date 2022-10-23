@@ -15,6 +15,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 
 @AllArgsConstructor
@@ -77,7 +78,8 @@ public class BookController {
         }
 
         @GetMapping("/books")
-        public ResponseEntity<Page<BookResponse>> getAllWithPage(@RequestParam(required = false ,value="q") String name,
+        @PreAuthorize("hasRole('ANONYMOUS') or hasRole('MEMBER') or hasRole('EMPLOYEE')")
+        public ResponseEntity<Page> getAllWithPageForMemberQuery(@RequestParam(required = false ,value="q") String name,
                                                                  @RequestParam(required = false,value ="cat") Long categoryId,
                                                                  @RequestParam(required = false,value ="author") Long authorId,
                                                                  @RequestParam(required = false,value ="publisher") Long publisherId,
@@ -87,10 +89,26 @@ public class BookController {
                                                                  @RequestParam(required = false,value = "direction", defaultValue = "ASC") Sort.Direction direction){
 
                 Pageable pageable= PageRequest.of(page, size, Sort.by(direction,prop));
-                Page<BookResponse> bookPage= bookService.findAllWithPage(pageable);
+                Page bookPage= bookService.findAllWithPageForMemberQuery(name, categoryId, authorId, publisherId, pageable);
 
                 return ResponseEntity.ok(bookPage);
+        }
 
+        @PreAuthorize("hasRole('ADMIN')")
+        @GetMapping("/books/query")
+        public ResponseEntity<Page> getAllWithPageForAdminQuery(@RequestParam(required = false ,value="q") String name,
+                                                                @RequestParam(required = false,value ="cat") Long categoryId,
+                                                                @RequestParam(required = false,value ="author") Long authorId,
+                                                                @RequestParam(required = false,value ="publisher") Long publisherId,
+                                                                @RequestParam(required = false,value = "page", defaultValue = "0") int page,
+                                                                @RequestParam(required = false,value = "size", defaultValue = "20") int size,
+                                                                @RequestParam(required = false,value = "sort", defaultValue = "name") String prop,
+                                                                @RequestParam(required = false,value = "direction", defaultValue = "ASC") Sort.Direction direction){
+
+                Pageable pageable= PageRequest.of(page, size, Sort.by(direction,prop));
+                Page bookPage= bookService.findAllWithPageForAdminQuery(name, categoryId, authorId, publisherId, pageable);
+
+                return ResponseEntity.ok(bookPage);
         }
 
 }
