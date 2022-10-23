@@ -9,14 +9,6 @@ import com.RL.exception.message.ErrorMessage;
 import com.RL.repository.AuthorRepository;
 import com.RL.repository.BookRepository;
 import lombok.AllArgsConstructor;
-
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.util.function.Function;
-
 import org.springframework.stereotype.Service;
 import java.util.List;
 
@@ -25,6 +17,7 @@ import java.util.List;
 public class AuthorService {
 
     private AuthorRepository repository;
+    private BookRepository bookRepository;
     private AuthorMapper authorMapper;
 
     public Author createAuthor(AuthorDTO authorDTO) {
@@ -55,9 +48,6 @@ public class AuthorService {
 
     public Author deleteById(Long id) {
         Author author = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Author not found"));
-        if(author.getBuiltIn()) {
-            throw new BadRequestException(ErrorMessage.NOT_PERMITTED_METHOD_MESSAGE);
-        }
         if(!author.getBooks().isEmpty()) {
             throw  new ResourceNotFoundException("You cannot delete an author who has a book");
         }
@@ -65,17 +55,15 @@ public class AuthorService {
         return author;
     }
 
-    public Page<AuthorDTO> getAuthorPage(Pageable pageable) {
-        Page<Author> authors = repository.findAll(pageable);
-        Page<AuthorDTO> dtoPage = authors.map(new Function<Author, AuthorDTO>() {
-            @Override
-            public AuthorDTO apply(Author author) {
-                return authorMapper.authorToAuthorDTO(author);
-            }
-        });
+//    public Page<RLResponse> getUsersPage(Pageable pageable) {
+//        Page<User> users = userRepository.findAll(pageable);
+//        Page<RLResponse> dtoPage = users.map(user -> userMapper.userToRLResponse(user));
+//
+//
+//        return dtoPage;
+//
+//    }
 
-        return dtoPage;
-    }
 
 
 }
