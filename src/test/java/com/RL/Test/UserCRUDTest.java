@@ -44,7 +44,7 @@ class UserCRUDTest {
         user.setBuiltIn(false);
         repository.save(user);
     }
- //   @Test
+    @Test
     public void bookUpdateTest() {
         List<User> objs = repository.findAll();
         for (var each : objs) {
@@ -55,7 +55,7 @@ class UserCRUDTest {
         }
     }
 
-  //  @Test
+    @Test
     public void bookDeleteTest() {
         List<User> objs = repository.findAll();
         for (var each : objs) {
