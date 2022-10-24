@@ -15,27 +15,27 @@ import java.util.Optional;
 @SpringBootTest
 class LoanCRUDTest {
 
-    @Autowired
-    private LoanRepository repository;
-    @Autowired
-    private BookRepository bookRepository;
-    @Autowired
-    private UserRepository userRepository;
+//    @Autowired
+//    private LoanRepository repository;
+//    @Autowired
+//    private BookRepository bookRepository;
+//    @Autowired
+//    private UserRepository userRepository;
 
-    String name = "Zekeriya Kaya test0111";
+//    String name = "Zekeriya Kaya test0111";
 
 
-    @Test
-    public void loanCreateTest() {
-        Loan loan = new Loan();
-        loan.setLoanDate(LocalDateTime.now());
-        loan.setExpireDate(LocalDateTime.now());
-        Optional<User> user = userRepository.findById(Long.parseLong(String.valueOf(122)));
-        loan.setUserId(user.get());
-        Optional<Book> book = bookRepository.findById(Long.parseLong(String.valueOf(143)));
-        loan.setBookId(book.get());
-        repository.save(loan);
-    }
+ //   @Test
+ //   public void loanCreateTest() {
+//        Loan loan = new Loan();
+//        loan.setLoanDate(LocalDateTime.now());
+//        loan.setExpireDate(LocalDateTime.now());
+ //       Optional<User> user = userRepository.findById(Long.parseLong(String.valueOf(122)));
+  //      loan.setUserId(user.get());
+   //     Optional<Book> book = bookRepository.findById(Long.parseLong(String.valueOf(143)));
+//        loan.setBookId(book.get());
+  //      repository.save(loan);
+//    }
 //    @Test
 //    public void bookUpdateTest() {
 //        List<Book> objs = repository.findAll();
