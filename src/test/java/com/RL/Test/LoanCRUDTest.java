@@ -15,14 +15,14 @@ import java.util.Optional;
 @SpringBootTest
 class LoanCRUDTest {
 
-//    @Autowired
-//    private LoanRepository repository;
-//    @Autowired
-//    private BookRepository bookRepository;
-//    @Autowired
-//    private UserRepository userRepository;
+    @Autowired
+    private LoanRepository repository;
+    @Autowired
+    private BookRepository bookRepository;
+    @Autowired
+    private UserRepository userRepository;
 
-//    String name = "Zekeriya Kaya test0111";
+    String name = "Zekeriya Kaya test0111";
 
 
 //    @Test

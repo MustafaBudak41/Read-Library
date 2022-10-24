@@ -213,3 +213,66 @@
 2022-10-24 10:37:13,826 INFO  [RMI TCP Connection(2)-10.0.0.186] org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/]:Initializing Spring DispatcherServlet 'dispatcherServlet'
 2022-10-24 10:37:13,827 INFO  [RMI TCP Connection(2)-10.0.0.186] org.springframework.web.servlet.DispatcherServlet:Initializing Servlet 'dispatcherServlet'
 2022-10-24 10:37:13,828 INFO  [RMI TCP Connection(2)-10.0.0.186] org.springframework.web.servlet.DispatcherServlet:Completed initialization in 1 ms
+2022-10-24 10:50:37,920 ERROR [http-nio-8080-exec-2] com.RL.security.jwt.JwtUtils:JWT Token is expired JWT expired at 2022-10-21T08:23:43Z. Current time: 2022-10-24T10:50:37Z, a difference of 268014920 milliseconds.  Allowed clock skew: 0 milliseconds.
+2022-10-24 10:50:56,452 ERROR [http-nio-8080-exec-3] com.RL.security.jwt.JwtUtils:JWT Token is expired JWT expired at 2022-10-21T08:23:43Z. Current time: 2022-10-24T10:50:56Z, a difference of 268033451 milliseconds.  Allowed clock skew: 0 milliseconds.
+2022-10-24 10:51:36,834 WARN  [http-nio-8080-exec-6] org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver:Resolved [com.RL.exception.ResourceNotFoundException: Author not found]
+2022-10-24 10:55:02,050 INFO  [SpringApplicationShutdownHook] org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean:Closing JPA EntityManagerFactory for persistence unit 'default'
+2022-10-24 10:55:02,052 INFO  [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource:HikariPool-1 - Shutdown initiated...
+2022-10-24 10:55:02,836 INFO  [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource:HikariPool-1 - Shutdown completed.
+2022-10-24 11:16:30,489 INFO  [main] com.RL.Test.LoanCRUDTest:Starting LoanCRUDTest using Java 11.0.15.1 on Endaze26 with PID 21100 (started by enduser in C:\Users\enduser\Desktop\Read-Library)
+2022-10-24 11:16:30,490 INFO  [main] com.RL.Test.LoanCRUDTest:No active profile set, falling back to 1 default profile: "default"
+2022-10-24 11:16:31,611 INFO  [main] org.springframework.data.repository.config.RepositoryConfigurationDelegate:Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2022-10-24 11:16:31,707 INFO  [main] org.springframework.data.repository.config.RepositoryConfigurationDelegate:Finished Spring Data repository scanning in 89 ms. Found 7 JPA repository interfaces.
+2022-10-24 11:16:32,316 INFO  [main] org.hibernate.jpa.internal.util.LogHelper:HHH000204: Processing PersistenceUnitInfo [name: default]
+2022-10-24 11:16:32,371 INFO  [main] org.hibernate.Version:HHH000412: Hibernate ORM core version 5.6.11.Final
+2022-10-24 11:16:32,552 INFO  [main] org.hibernate.annotations.common.Version:HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2022-10-24 11:16:32,722 INFO  [main] com.zaxxer.hikari.HikariDataSource:HikariPool-1 - Starting...
+2022-10-24 11:16:33,969 INFO  [main] com.zaxxer.hikari.HikariDataSource:HikariPool-1 - Start completed.
+2022-10-24 11:16:33,985 INFO  [main] org.hibernate.dialect.Dialect:HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect
+2022-10-24 11:16:37,902 INFO  [main] org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator:HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2022-10-24 11:16:37,909 INFO  [main] org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean:Initialized JPA EntityManagerFactory for persistence unit 'default'
+2022-10-24 11:16:38,739 WARN  [main] org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration$JpaWebConfiguration:spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2022-10-24 11:16:39,083 INFO  [main] org.springframework.security.web.DefaultSecurityFilterChain:Will secure any request with [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@49b73e6c, org.springframework.security.web.context.SecurityContextPersistenceFilter@29682244, org.springframework.security.web.header.HeaderWriterFilter@7e4a6afd, org.springframework.security.web.authentication.logout.LogoutFilter@3e3d8e6c, com.RL.security.jwt.AuthTokenFilter@4b6942a0, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@7a3ab73a, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@71e2ddd, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@1f138b74, org.springframework.security.web.session.SessionManagementFilter@55f54852, org.springframework.security.web.access.ExceptionTranslationFilter@5dd62f07, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@122a6078]
+2022-10-24 11:16:40,522 INFO  [main] org.springframework.boot.actuate.endpoint.web.EndpointLinksResolver:Exposing 1 endpoint(s) beneath base path '/actuator'
+2022-10-24 11:16:40,583 INFO  [main] com.RL.Test.LoanCRUDTest:Started LoanCRUDTest in 10.565 seconds (JVM running for 11.603)
+2022-10-24 11:16:41,417 INFO  [SpringApplicationShutdownHook] org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean:Closing JPA EntityManagerFactory for persistence unit 'default'
+2022-10-24 11:16:41,420 INFO  [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource:HikariPool-1 - Shutdown initiated...
+2022-10-24 11:16:42,268 INFO  [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource:HikariPool-1 - Shutdown completed.
+2022-10-24 11:18:00,661 INFO  [main] com.RL.Test.LoanCRUDTest:Starting LoanCRUDTest using Java 11.0.15.1 on Endaze26 with PID 10072 (started by enduser in C:\Users\enduser\Desktop\Read-Library)
+2022-10-24 11:18:00,662 INFO  [main] com.RL.Test.LoanCRUDTest:No active profile set, falling back to 1 default profile: "default"
+2022-10-24 11:18:01,650 INFO  [main] org.springframework.data.repository.config.RepositoryConfigurationDelegate:Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2022-10-24 11:18:01,744 INFO  [main] org.springframework.data.repository.config.RepositoryConfigurationDelegate:Finished Spring Data repository scanning in 84 ms. Found 7 JPA repository interfaces.
+2022-10-24 11:18:02,379 INFO  [main] org.hibernate.jpa.internal.util.LogHelper:HHH000204: Processing PersistenceUnitInfo [name: default]
+2022-10-24 11:18:02,429 INFO  [main] org.hibernate.Version:HHH000412: Hibernate ORM core version 5.6.11.Final
+2022-10-24 11:18:02,579 INFO  [main] org.hibernate.annotations.common.Version:HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2022-10-24 11:18:02,733 INFO  [main] com.zaxxer.hikari.HikariDataSource:HikariPool-1 - Starting...
+2022-10-24 11:18:07,855 INFO  [main] com.zaxxer.hikari.HikariDataSource:HikariPool-1 - Start completed.
+2022-10-24 11:18:07,870 INFO  [main] org.hibernate.dialect.Dialect:HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect
+2022-10-24 11:18:21,877 INFO  [main] org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator:HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2022-10-24 11:18:21,886 INFO  [main] org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean:Initialized JPA EntityManagerFactory for persistence unit 'default'
+2022-10-24 11:18:22,683 WARN  [main] org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration$JpaWebConfiguration:spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2022-10-24 11:18:23,066 INFO  [main] org.springframework.security.web.DefaultSecurityFilterChain:Will secure any request with [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@7c855ef0, org.springframework.security.web.context.SecurityContextPersistenceFilter@4bca2a09, org.springframework.security.web.header.HeaderWriterFilter@125c03d3, org.springframework.security.web.authentication.logout.LogoutFilter@439047ef, com.RL.security.jwt.AuthTokenFilter@15e748b5, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@29682244, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@67cd1db3, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@3dedc8b8, org.springframework.security.web.session.SessionManagementFilter@5be8a92c, org.springframework.security.web.access.ExceptionTranslationFilter@19a544cd, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@65fa1cd]
+2022-10-24 11:18:24,589 INFO  [main] org.springframework.boot.actuate.endpoint.web.EndpointLinksResolver:Exposing 1 endpoint(s) beneath base path '/actuator'
+2022-10-24 11:18:24,649 INFO  [main] com.RL.Test.LoanCRUDTest:Started LoanCRUDTest in 24.328 seconds (JVM running for 25.386)
+2022-10-24 11:18:26,381 INFO  [SpringApplicationShutdownHook] org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean:Closing JPA EntityManagerFactory for persistence unit 'default'
+2022-10-24 11:18:26,383 INFO  [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource:HikariPool-1 - Shutdown initiated...
+2022-10-24 11:18:27,931 INFO  [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource:HikariPool-1 - Shutdown completed.
+2022-10-24 13:51:39,516 INFO  [main] com.RL.Test.LoanCRUDTest:Starting LoanCRUDTest using Java 11.0.15.1 on Endaze26 with PID 8468 (started by enduser in C:\Users\enduser\Desktop\Read-Library)
+2022-10-24 13:51:39,517 INFO  [main] com.RL.Test.LoanCRUDTest:No active profile set, falling back to 1 default profile: "default"
+2022-10-24 13:51:40,542 INFO  [main] org.springframework.data.repository.config.RepositoryConfigurationDelegate:Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2022-10-24 13:51:40,631 INFO  [main] org.springframework.data.repository.config.RepositoryConfigurationDelegate:Finished Spring Data repository scanning in 82 ms. Found 7 JPA repository interfaces.
+2022-10-24 13:51:41,236 INFO  [main] org.hibernate.jpa.internal.util.LogHelper:HHH000204: Processing PersistenceUnitInfo [name: default]
+2022-10-24 13:51:41,287 INFO  [main] org.hibernate.Version:HHH000412: Hibernate ORM core version 5.6.11.Final
+2022-10-24 13:51:41,449 INFO  [main] org.hibernate.annotations.common.Version:HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2022-10-24 13:51:41,603 INFO  [main] com.zaxxer.hikari.HikariDataSource:HikariPool-1 - Starting...
+2022-10-24 13:51:46,474 INFO  [main] com.zaxxer.hikari.HikariDataSource:HikariPool-1 - Start completed.
+2022-10-24 13:51:46,490 INFO  [main] org.hibernate.dialect.Dialect:HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect
+2022-10-24 13:51:54,259 INFO  [main] org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator:HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2022-10-24 13:51:54,267 INFO  [main] org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean:Initialized JPA EntityManagerFactory for persistence unit 'default'
+2022-10-24 13:51:55,140 WARN  [main] org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration$JpaWebConfiguration:spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2022-10-24 13:51:55,523 INFO  [main] org.springframework.security.web.DefaultSecurityFilterChain:Will secure any request with [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@2b826482, org.springframework.security.web.context.SecurityContextPersistenceFilter@19a544cd, org.springframework.security.web.header.HeaderWriterFilter@3b2114ce, org.springframework.security.web.authentication.logout.LogoutFilter@b97f195, com.RL.security.jwt.AuthTokenFilter@7d48299e, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@5dd62f07, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@24f8707c, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@3f908a10, org.springframework.security.web.session.SessionManagementFilter@1ff52a71, org.springframework.security.web.access.ExceptionTranslationFilter@14aa2123, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@1dc9e4d2]
+2022-10-24 13:51:57,190 INFO  [main] org.springframework.boot.actuate.endpoint.web.EndpointLinksResolver:Exposing 1 endpoint(s) beneath base path '/actuator'
+2022-10-24 13:51:57,249 INFO  [main] com.RL.Test.LoanCRUDTest:Started LoanCRUDTest in 18.107 seconds (JVM running for 19.094)
+2022-10-24 13:52:00,977 INFO  [SpringApplicationShutdownHook] org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean:Closing JPA EntityManagerFactory for persistence unit 'default'
+2022-10-24 13:52:00,980 INFO  [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource:HikariPool-1 - Shutdown initiated...
+2022-10-24 13:52:03,485 INFO  [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource:HikariPool-1 - Shutdown completed.
