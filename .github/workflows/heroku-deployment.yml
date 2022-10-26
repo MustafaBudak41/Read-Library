@@ -23,6 +23,7 @@ jobs:
     - uses: actions/checkout@v3
     - name: Heroku Build
       uses: behe/heroku-build@v1.1
-      with:    
-        app-name: 543f831a-4386-4596-8bd2-3a9c33ec4ce2    
+      with: 
         api-key: 543f831a-4386-4596-8bd2-3a9c33ec4ce2            
+        heroku_email: mbudak@gmail.com
+        heroku_app_name: readlibrary1
