@@ -1,0 +1,21 @@
+name: Heroku Deployment
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3   
+    - name: Deploy to Heroku
+      # You may pin to the exact commit or the version.
+      # uses: AkhileshNS/heroku-deploy@79ef2ae4ff9b897010907016b268fd0f88561820
+      uses: AkhileshNS/heroku-deploy@v3.12.12
+      with:
+        heroku_api_key: 543f831a-4386-4596-8bd2-3a9c33ec4ce2
+        heroku_email: mbudak@gmail.com
+        heroku_app_name: readlibrary1
